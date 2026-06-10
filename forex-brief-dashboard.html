@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FX BRIEF — TPTraders</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg0:#0a0b0d; --bg1:#0f1114; --bg2:#151820; --bg3:#1c2030;
+  --text0:#e8eaf0; --text1:#c8cad4; --text2:#8892a4; --text3:#455060;
+  --accent:#3b82f6; --accent-dim:rgba(59,130,246,0.1);
+  --green:#10b981; --green-dim:rgba(16,185,129,0.1);
+  --red:#ef4444; --red-dim:rgba(239,68,68,0.1);
+  --amber:#f59e0b; --amber-dim:rgba(245,158,11,0.1);
+  --gold:#F5A623; --gold-dim:rgba(245,166,35,0.1);
+  --border:rgba(255,255,255,0.055);
+  --border-hi:rgba(255,255,255,0.1);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body {
+  background:var(--bg0);
+  color:var(--text0);
+  font-family:'IBM Plex Sans',sans-serif;
+  min-height:100vh;
+  overflow:hidden;
+}
+
+/* scanlines */
+body::after {
+  content:'';
+  position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.018) 3px,rgba(0,0,0,0.018) 4px);
+  pointer-events:none;
+  z-index:9000;
+}
+
+/* ─── APP SHELL ─── */
+#app {
+  display:grid;
+  grid-template-rows:48px auto 1fr;
+  grid-template-columns:220px 1fr;
+  height:100vh;
+  grid-template-areas:
+    "topbar topbar"
+    "sidebar strip"
+    "sidebar main";
+}
+
+/* ─── TOPBAR ─── */
+#topbar {
+  grid-area:topbar;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  background:var(--bg1);
+  border-bottom:1px solid var(--border);
+  z-index:100;
+}
+
+.logo {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:0.2em;
+  color:var(--accent);
+}
+.logo em { color:var(--text3); font-style:normal; font-weight:400; }
+
+.topbar-center {
+  display:flex;align-items:center;gap:16px;
+}
+
+.status-dot {
+  width:6px;height:6px;border-radius:50%;
+  background:var(--text3);
+  flex-shrink:0;
+}
+.status-dot.live { background:var(--green); box-shadow:0 0 6px rgba(16,185,129,0.5); }
+.status-dot.running { background:var(--amber); animation:dotpulse 1s ease-in-out infinite; }
+.status-dot.error { background:var(--red); }
+
+@keyframes dotpulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+.status-label {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  color:var(--text3);
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+}
+
+.ts {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  color:var(--text3);
+}
+
+.topbar-right { display:flex;align-items:center;gap:8px; }
+
+.btn {
+  display:flex;align-items:center;gap:5px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  padding:6px 12px;
+  border-radius:3px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--text2);
+  cursor:pointer;
+  transition:all 0.15s;
+  white-space:nowrap;
+}
+.btn:hover { border-color:var(--accent);color:var(--accent); }
+.btn:disabled { opacity:0.3;cursor:not-allowed; }
+.btn.primary { background:var(--accent);border-color:var(--accent);color:#fff; }
+.btn.primary:hover { background:#2563eb;border-color:#2563eb; }
+.btn.danger { border-color:var(--red);color:var(--red); }
+.btn.danger:hover { background:var(--red-dim); }
+
+/* ─── SIDEBAR ─── */
+#sidebar {
+  grid-area:sidebar;
+  background:var(--bg1);
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+.sidebar-section {
+  padding:14px 16px 10px;
+  border-bottom:1px solid var(--border);
+}
+
+.sidebar-label {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--text3);
+  margin-bottom:8px;
+}
+
+/* history list */
+#history-list {
+  flex:1;
+  overflow-y:auto;
+  padding:8px 0;
+}
+#history-list::-webkit-scrollbar { width:3px; }
+#history-list::-webkit-scrollbar-thumb { background:var(--bg3); }
+
+.hist-item {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 16px;
+  cursor:pointer;
+  transition:background 0.1s;
+  border-left:2px solid transparent;
+}
+.hist-item:hover { background:rgba(255,255,255,0.025); }
+.hist-item.active {
+  background:var(--accent-dim);
+  border-left-color:var(--accent);
+}
+.hist-item.today { }
+
+.hist-date {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  color:var(--text1);
+  font-weight:500;
+  flex:1;
+}
+.hist-regime {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  font-weight:700;
+  padding:2px 5px;
+  border-radius:2px;
+}
+.hist-regime.ron { color:var(--green);background:var(--green-dim); }
+.hist-regime.rof { color:var(--red);background:var(--red-dim); }
+.hist-regime.neu { color:var(--amber);background:var(--amber-dim); }
+
+.hist-empty {
+  padding:16px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  color:var(--text3);
+  line-height:1.6;
+}
+
+.sidebar-footer {
+  padding:12px 16px;
+  border-top:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+/* ─── SUMMARY STRIP ─── */
+#strip {
+  grid-area:strip;
+  display:flex;
+  align-items:stretch;
+  background:var(--bg1);
+  border-bottom:1px solid var(--border);
+  overflow-x:auto;
+}
+#strip::-webkit-scrollbar { height:2px; }
+#strip::-webkit-scrollbar-thumb { background:var(--bg3); }
+
+.strip-block {
+  padding:10px 18px;
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:3px;
+  flex-shrink:0;
+}
+.strip-label {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:8px;
+  font-weight:600;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--text3);
+}
+.strip-val {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:15px;
+  font-weight:700;
+  line-height:1;
+}
+.strip-sub {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  color:var(--text3);
+}
+.strip-pairs { display:flex;gap:5px;align-items:center; }
+.strip-pair {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  font-weight:700;
+  padding:2px 6px;
+  border-radius:2px;
+}
+.strip-pair.long { color:var(--green);background:var(--green-dim); }
+.strip-pair.short { color:var(--red);background:var(--red-dim); }
+
+/* delta badges */
+.delta {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  font-weight:700;
+  padding:1px 5px;
+  border-radius:2px;
+  margin-left:5px;
+  vertical-align:middle;
+}
+.delta.new { color:var(--amber);background:var(--amber-dim); }
+.delta.changed { color:var(--accent);background:var(--accent-dim); }
+.delta.same { color:var(--text3);background:rgba(255,255,255,0.04); }
+
+/* ─── MAIN AREA ─── */
+#main {
+  grid-area:main;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* ─── TAB BAR ─── */
+#tabbar {
+  display:flex;
+  border-bottom:1px solid var(--border);
+  background:var(--bg1);
+  overflow-x:auto;
+  flex-shrink:0;
+}
+#tabbar::-webkit-scrollbar { height:2px; }
+#tabbar::-webkit-scrollbar-thumb { background:var(--bg3); }
+
+.tab {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  padding:9px 16px;
+  border:none;
+  background:transparent;
+  color:var(--text3);
+  cursor:pointer;
+  border-bottom:2px solid transparent;
+  margin-bottom:-1px;
+  white-space:nowrap;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  transition:color 0.15s;
+}
+.tab:hover { color:var(--text1); }
+.tab.active { color:var(--accent);border-bottom-color:var(--accent); }
+
+.tab-pip {
+  width:5px;height:5px;border-radius:50%;flex-shrink:0;
+}
+.pip-green { background:var(--green); }
+.pip-red { background:var(--red); }
+.pip-amber { background:var(--amber); }
+.pip-blue { background:var(--accent); }
+.pip-gold { background:var(--gold); }
+.pip-gray { background:var(--text3); }
+
+/* ─── PANELS ─── */
+#panels {
+  flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
+}
+#panels::-webkit-scrollbar { width:4px; }
+#panels::-webkit-scrollbar-thumb { background:var(--bg3); }
+#panels::-webkit-scrollbar-track { background:transparent; }
+
+.panel { display:none; padding:20px; animation:panelIn 0.18s ease; }
+.panel.active { display:block; }
+@keyframes panelIn { from{opacity:0;transform:translateY(3px);} to{opacity:1;transform:translateY(0);} }
+
+/* ─── CARDS ─── */
+.card {
+  background:var(--bg1);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:16px;
+  position:relative;
+}
+.card-top { position:absolute;top:0;left:0;right:0;height:2px;border-radius:4px 4px 0 0; }
+
+.g2 { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+.g3 { display:grid;grid-template-columns:repeat(3,1fr);gap:12px; }
+.g4 { display:grid;grid-template-columns:repeat(4,1fr);gap:12px; }
+
+/* ─── SECTION LABEL ─── */
+.sl {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--text3);
+  margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.sl::after { content:'';flex:1;height:1px;background:var(--border); }
+
+/* ─── DELTA PANEL (comparison bar at top of each panel) ─── */
+.delta-bar {
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:10px 14px;
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.delta-bar-label {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  color:var(--text3);
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  flex-shrink:0;
+}
+.delta-tag {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  font-weight:600;
+  padding:2px 6px;
+  border-radius:2px;
+}
+.delta-tag.changed { color:var(--accent);background:var(--accent-dim); }
+.delta-tag.new { color:var(--amber);background:var(--amber-dim); }
+.delta-tag.same { color:var(--text3);background:rgba(255,255,255,0.04); }
+.delta-tag.flip { color:var(--gold);background:var(--gold-dim); }
+
+/* ─── MACRO ─── */
+.regime-badge {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:32px;
+  font-weight:700;
+  letter-spacing:-0.02em;
+  line-height:1;
+}
+.regime-badge.risk-on { color:var(--green); }
+.regime-badge.risk-off { color:var(--red); }
+.regime-badge.neutral { color:var(--amber); }
+
+/* ─── CB ─── */
+.cb-ccy { font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:700; }
+.cb-bank { font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:1px; }
+.cb-rate { font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:700;margin:8px 0 4px;line-height:1; }
+.cb-rate .pct { font-size:13px;color:var(--text2);font-weight:400; }
+.stance { font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;display:inline-block; }
+.stance.hawkish { color:var(--green);background:var(--green-dim); }
+.stance.dovish { color:var(--red);background:var(--red-dim); }
+.stance.neutral { color:var(--amber);background:var(--amber-dim); }
+.stance.hold { color:var(--text2);background:rgba(136,146,164,0.08); }
+.cb-mtg { font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text3);margin-top:5px; }
+.cb-tone { font-size:11px;color:var(--text2);line-height:1.55;border-top:1px solid var(--border);padding-top:8px;margin-top:8px; }
+
+/* ─── COT ─── */
+.cot-t { width:100%;border-collapse:collapse; }
+.cot-t th { font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);text-align:left;padding:6px 10px;border-bottom:1px solid var(--border); }
+.cot-t td { font-family:'IBM Plex Mono',monospace;font-size:12px;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.03);vertical-align:middle; }
+.cot-t tr:last-child td { border-bottom:none; }
+.cot-t tr:hover td { background:rgba(255,255,255,0.015); }
+.cot-long { color:var(--green); }
+.cot-short { color:var(--red); }
+.cot-bar { width:70px;height:4px;background:var(--bg3);border-radius:2px;position:relative;display:inline-block;vertical-align:middle; }
+.cot-fill { position:absolute;top:0;height:100%;border-radius:2px; }
+.cot-fill.long { background:var(--green);left:50%; }
+.cot-fill.short { background:var(--red);right:50%; }
+
+/* ─── CALENDAR ─── */
+.ev { display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.03); }
+.ev:last-child { border-bottom:none; }
+.ev-time { font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text3);min-width:62px;padding-top:1px; }
+.ev-dot { width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:3px; }
+.ev-dot.red { background:var(--red);box-shadow:0 0 5px rgba(239,68,68,0.45); }
+.ev-dot.orange { background:var(--amber); }
+.ev-ccy { font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;background:var(--bg3);color:var(--text2);padding:2px 5px;border-radius:2px;flex-shrink:0; }
+.ev-name { flex:1;font-size:12px;color:var(--text1);line-height:1.4; }
+.ev-fc { font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace;margin-top:2px; }
+
+/* ─── COMMODITIES ─── */
+.comm-name { font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2); }
+.comm-sym { font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text3); }
+.comm-price { font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:700;margin:8px 0 2px;line-height:1; }
+.comm-chg { font-family:'IBM Plex Mono',monospace;font-size:12px; }
+.comm-chg.up { color:var(--green); }
+.comm-chg.dn { color:var(--red); }
+.trend-b { font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:2px 6px;border-radius:2px; }
+.trend-b.bullish { color:var(--green);background:var(--green-dim); }
+.trend-b.bearish { color:var(--red);background:var(--red-dim); }
+.trend-b.neutral { color:var(--amber);background:var(--amber-dim); }
+.comm-corr { font-size:11px;color:var(--text2);border-top:1px solid var(--border);padding-top:8px;margin-top:8px;line-height:1.5; }
+
+/* ─── STRENGTH ─── */
+.str-r { display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.03); }
+.str-r:last-child { border-bottom:none; }
+.str-rank { font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text3);width:14px;text-align:right;flex-shrink:0; }
+.str-ccy { font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;width:34px;flex-shrink:0; }
+.str-bar { flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden; }
+.str-fill { height:100%;border-radius:3px;transition:width 0.8s cubic-bezier(0.4,0,0.2,1); }
+.str-score { font-family:'IBM Plex Mono',monospace;font-size:11px;width:28px;text-align:right;flex-shrink:0; }
+.str-chg { font-family:'IBM Plex Mono',monospace;font-size:10px;width:44px;text-align:right;flex-shrink:0; }
+
+/* ─── OUTLIERS ─── */
+.out-t { width:100%;border-collapse:collapse; }
+.out-t th { font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);text-align:left;padding:6px 10px;border-bottom:1px solid var(--border); }
+.out-t td { font-family:'IBM Plex Mono',monospace;font-size:12px;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.03);vertical-align:middle; }
+.out-t tr:last-child td { border-bottom:none; }
+.out-t tr:hover td { background:rgba(255,255,255,0.015); }
+.pair-nm { font-weight:700;color:var(--text0);letter-spacing:0.05em; }
+.dir-t { font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:2px 6px;border-radius:2px; }
+.dir-t.long { color:var(--green);background:var(--green-dim); }
+.dir-t.short { color:var(--red);background:var(--red-dim); }
+.conv-b { width:50px;height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;display:inline-block;vertical-align:middle;margin-right:5px; }
+.conv-f { height:100%;border-radius:2px; }
+.conv-f.long { background:var(--green); }
+.conv-f.short { background:var(--red); }
+
+/* ─── MATRIX ─── */
+.mf-row { display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap; }
+.mfbtn { font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:2px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;transition:all 0.15s; }
+.mfbtn.active { border-color:var(--accent);color:var(--accent); }
+.mfbtn.lf.active { border-color:var(--green);color:var(--green); }
+.mfbtn.sf.active { border-color:var(--red);color:var(--red); }
+.pair-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:5px; }
+.pc { border-radius:3px;padding:7px 5px;text-align:center;font-family:'IBM Plex Mono',monospace;transition:opacity 0.2s;cursor:default; }
+.pc.dim { opacity:0.12; }
+.pc-name { font-size:10px;font-weight:700;letter-spacing:0.04em; }
+.pc-meta { font-size:9px;margin-top:2px;opacity:0.8; }
+
+/* ─── ANALYST ─── */
+.analyst-body {
+  font-size:13px;color:var(--text1);line-height:1.8;
+  border-left:2px solid var(--accent);
+  padding-left:18px;
+  font-style:italic;
+}
+
+/* ─── IDLE / LOADING / ERROR OVERLAYS ─── */
+.overlay {
+  position:fixed;inset:0;
+  background:var(--bg0);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:20px;padding:40px;text-align:center;
+  z-index:500;
+}
+.overlay.hidden { display:none; }
+
+.idle-bg {
+  position:fixed;inset:0;
+  background-image:linear-gradient(rgba(59,130,246,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,0.025) 1px,transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none;
+}
+.idle-title {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:clamp(28px,4vw,52px);
+  font-weight:700;
+  letter-spacing:-0.02em;
+  line-height:1;
+}
+.idle-title .fx { color:var(--accent); }
+.idle-title .dim { color:var(--text3); }
+.idle-sub { font-size:13px;color:var(--text2);max-width:440px;line-height:1.65; }
+.idle-chips { display:flex;gap:14px;flex-wrap:wrap;justify-content:center; }
+.chip { font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text3);display:flex;align-items:center;gap:5px; }
+.chip::before { content:'';width:4px;height:4px;border-radius:50%;background:var(--accent); }
+.btn-hero { display:flex;align-items:center;gap:10px;background:var(--accent);color:#fff;border:none;padding:15px 36px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all 0.18s;margin-top:4px; }
+.btn-hero:hover { background:#2563eb;transform:translateY(-2px);box-shadow:0 8px 28px rgba(59,130,246,0.22); }
+.btn-hero:active { transform:translateY(0); }
+.btn-hero:disabled { background:var(--bg3);color:var(--text3);cursor:not-allowed;transform:none;box-shadow:none; }
+
+.spinner { width:32px;height:32px;border:2px solid var(--bg3);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg);} }
+.prog-label { font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--amber);letter-spacing:0.1em;text-transform:uppercase; }
+.prog-steps { display:flex;flex-direction:column;gap:5px;width:100%;max-width:420px; }
+.ps { display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text3);transition:color 0.3s; }
+.ps.active { color:var(--amber); }
+.ps.done { color:var(--green); }
+.ps .si { width:12px;text-align:center; }
+
+.err-code { font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--red);letter-spacing:0.1em; }
+.err-msg { font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);max-width:400px;line-height:1.6; }
+
+/* ─── HISTORY COMPARE VIEW ─── */
+.compare-badge {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  padding:2px 7px;
+  border-radius:2px;
+  background:var(--amber-dim);
+  color:var(--amber);
+  margin-left:8px;
+}
+
+/* ─── DISCLAIMER ─── */
+.disc {
+  padding:10px 20px;
+  font-size:10px;
+  color:var(--text3);
+  border-top:1px solid var(--border);
+  text-align:center;
+  flex-shrink:0;
+  background:var(--bg1);
+}
+</style>
+</head>
+<body>
+
+<!-- ── IDLE OVERLAY ── -->
+<div class="overlay" id="idle-overlay">
+  <div class="idle-bg"></div>
+  <div class="idle-title"><span class="fx">FX</span> BRIEF<br><span class="dim">DASHBOARD</span></div>
+  <div class="idle-sub">Personal pre-session intelligence. Runs once at open, stores 30 days of history, tracks what changed.</div>
+  <div class="idle-chips">
+    <span class="chip">8 currencies · 28 pairs</span>
+    <span class="chip">Delta tracking</span>
+    <span class="chip">30-day history</span>
+    <span class="chip">Snapshot export</span>
+  </div>
+  <button class="btn-hero" id="btn-idle" onclick="runBrief()">▶ RUN TODAY'S BRIEF</button>
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text3);margin-top:-8px;">~60–90 seconds · runs once per day automatically</div>
+</div>
+
+<!-- ── PROGRESS OVERLAY ── -->
+<div class="overlay hidden" id="prog-overlay">
+  <div class="spinner"></div>
+  <div class="prog-label">GATHERING INTELLIGENCE…</div>
+  <div class="prog-steps">
+    <div class="ps" id="ps-macro"><span class="si">○</span> Macro environment &amp; risk regime</div>
+    <div class="ps" id="ps-cb"><span class="si">○</span> Central bank rates &amp; tone</div>
+    <div class="ps" id="ps-cot"><span class="si">○</span> CFTC COT positioning</div>
+    <div class="ps" id="ps-cal"><span class="si">○</span> Economic calendar</div>
+    <div class="ps" id="ps-comm"><span class="si">○</span> Commodity prices &amp; correlations</div>
+    <div class="ps" id="ps-str"><span class="si">○</span> Currency strength</div>
+    <div class="ps" id="ps-pairs"><span class="si">○</span> Pair conviction &amp; outliers</div>
+    <div class="ps" id="ps-synth"><span class="si">○</span> Synthesizing brief</div>
+  </div>
+</div>
+
+<!-- ── ERROR OVERLAY ── -->
+<div class="overlay hidden" id="err-overlay">
+  <div class="err-code">⚠ BRIEF FAILED</div>
+  <div class="err-msg" id="err-msg">An error occurred.</div>
+  <button class="btn-hero" onclick="retryRun()" style="margin-top:4px;">↺ RETRY</button>
+</div>
+
+<!-- ── MAIN APP SHELL ── -->
+<div id="app" style="display:none;">
+
+  <!-- TOPBAR -->
+  <header id="topbar">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="logo">FX<em>/</em>BRIEF</div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div class="status-dot" id="sdot"></div>
+        <span class="status-label" id="slabel">STANDBY</span>
+      </div>
+    </div>
+    <div class="topbar-center">
+      <span class="ts" id="ts-viewing" style="display:none;color:var(--amber);"></span>
+      <span class="ts" id="ts-clock"></span>
+    </div>
+    <div class="topbar-right">
+      <button class="btn" id="btn-refresh" onclick="runBrief()" title="Run new brief">↺ REFRESH</button>
+      <button class="btn" id="btn-snapshot" onclick="downloadSnapshot()" title="Download HTML snapshot">⬇ SNAPSHOT</button>
+    </div>
+  </header>
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">History</div>
+    </div>
+    <div id="history-list"></div>
+    <div class="sidebar-footer">
+      <button class="btn danger" onclick="clearHistory()" style="font-size:9px;padding:5px 10px;">✕ CLEAR HISTORY</button>
+    </div>
+  </aside>
+
+  <!-- SUMMARY STRIP -->
+  <div id="strip"></div>
+
+  <!-- MAIN -->
+  <div id="main">
+    <div id="tabbar"></div>
+    <div id="panels"></div>
+    <div class="disc">FX Morning Brief is for informational purposes only. Not financial advice. Always verify with primary sources before trading.</div>
+  </div>
+
+</div>
+
+<script>
+// ── UTILS ────────────────────────────────────────────────────
+const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const $ = id => document.getElementById(id);
+const today = () => new Date().toISOString().slice(0,10);
+const fmtDate = iso => { const d=new Date(iso); return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}); };
+
+// ── CLOCK ────────────────────────────────────────────────────
+function tick() {
+  const now = new Date();
+  const utc = new Date(now.getTime() + now.getTimezoneOffset()*60000);
+  $('ts-clock').textContent = utc.toUTCString().replace(' GMT','') + ' UTC';
+}
+tick(); setInterval(tick,1000);
+
+// ── STATUS ───────────────────────────────────────────────────
+function setStatus(label, state) {
+  $('sdot').className = 'status-dot ' + state;
+  $('slabel').textContent = label;
+}
+
+// ── OVERLAY MANAGEMENT ───────────────────────────────────────
+function showOverlay(name) {
+  ['idle','prog','err'].forEach(o => $(`${o}-overlay`).classList.add('hidden'));
+  if (name) $(name+'-overlay').classList.remove('hidden');
+}
+
+function showApp() {
+  showOverlay(null);
+  $('app').style.display = 'grid';
+}
+
+// ── STORAGE ──────────────────────────────────────────────────
+const STORAGE_KEY = 'fxbrief_history';
+const MAX_DAYS = 30;
+
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+  catch { return {}; }
+}
+
+function saveToHistory(dateKey, brief) {
+  const h = loadHistory();
+  h[dateKey] = brief;
+  // prune to MAX_DAYS
+  const keys = Object.keys(h).sort().reverse();
+  if (keys.length > MAX_DAYS) keys.slice(MAX_DAYS).forEach(k => delete h[k]);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(h));
+}
+
+function clearHistory() {
+  if (!confirm('Clear all brief history? This cannot be undone.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  location.reload();
+}
+
+// ── PROGRESS STEPS ───────────────────────────────────────────
+const STEPS = ['macro','cb','cot','cal','comm','str','pairs','synth'];
+const STEP_DELAYS = [0,4000,8500,13000,17500,22000,27000,33000];
+const STEP_DONE   = [3500,8000,12500,16500,21000,26000,32000,99999];
+let _timers = [];
+
+function setStep(id, state) {
+  const el = $('ps-'+id); if(!el) return;
+  el.className = 'ps '+state;
+  el.querySelector('.si').textContent = state==='active'?'◉':state==='done'?'✓':'○';
+}
+
+function startStepAnimation() {
+  clearTimers();
+  STEPS.forEach((s,i) => {
+    _timers.push(setTimeout(()=>setStep(s,'active'), STEP_DELAYS[i]));
+    if(STEP_DONE[i]<99999) _timers.push(setTimeout(()=>setStep(s,'done'), STEP_DONE[i]));
+  });
+}
+
+function clearTimers() { _timers.forEach(clearTimeout); _timers=[]; }
+
+// ── PROMPT ───────────────────────────────────────────────────
+function buildPrompt() {
+  return `You are a senior FX market analyst. Today is ${new Date().toUTCString()}.
+
+Use your web search tool to gather current data, then return a complete FX morning brief as a single valid JSON object. No markdown, no explanation — JSON only.
+
+Cover all 8 currencies: USD, EUR, GBP, JPY, AUD, NZD, CAD, CHF.
+
+{
+  "generated_at": "<ISO timestamp>",
+  "macro": {
+    "regime": "RISK ON"|"RISK OFF"|"NEUTRAL",
+    "dollar_bias": "BULLISH"|"BEARISH"|"NEUTRAL",
+    "summary": "<2-3 sentence macro summary>"
+  },
+  "central_banks": [
+    { "currency":"USD","bank":"Federal Reserve","rate":"5.25","stance":"hawkish"|"dovish"|"neutral"|"hold","next_meeting":"<date>","tone":"<1-2 sentence summary>" }
+  ],
+  "cot": [
+    { "currency":"USD","net_position":45000,"weekly_change":2300,"direction":"long"|"short","extreme":false,"note":"<brief context>" }
+  ],
+  "calendar": [
+    { "day":"MON","time":"08:30","currency":"USD","event":"CPI m/m","impact":"red"|"orange","forecast":"0.3%","previous":"0.4%" }
+  ],
+  "commodities": [
+    { "name":"GOLD","symbol":"XAU/USD","price":"2345.60","change_pct":"+0.4","trend":"bullish"|"bearish"|"neutral","correlation":"<1 sentence>" },
+    { "name":"OIL (WTI)","symbol":"WTI/USD","price":"78.40","change_pct":"-1.2","trend":"bullish"|"bearish"|"neutral","correlation":"<1 sentence>" },
+    { "name":"COPPER","symbol":"HG1","price":"4.21","change_pct":"+0.8","trend":"bullish"|"bearish"|"neutral","correlation":"<1 sentence>" }
+  ],
+  "currency_strength": [
+    { "currency":"USD","score":72,"rank":1,"weekly_change":"+0.8%" }
+  ],
+  "pair_outliers": [
+    { "pair":"GBPJPY","direction":"long"|"short","conviction":88,"rationale":"<concise reason>","key_level":"<price>" }
+  ],
+  "pair_summary_table": [
+    { "pair":"EURUSD","direction":"long"|"short","conviction":55 }
+  ],
+  "analyst_note": "<3-5 sentence first-person analyst commentary>"
+}
+
+Include all 8 central banks, all 8 COT entries, all red/orange calendar events this week (up to 20), all 8 strength rankings, top 8 outliers, and all 28 pairs.`;
+}
+
+// ── RUN BRIEF ────────────────────────────────────────────────
+let isRunning = false;
+
+async function runBrief() {
+  if (isRunning) return;
+  isRunning = true;
+  $('btn-idle') && ($('btn-idle').disabled = true);
+  $('btn-refresh').disabled = true;
+
+  showOverlay('prog');
+  setStatus('RUNNING', 'running');
+  startStepAnimation();
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 8000,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: buildPrompt() }]
+      })
+    });
+
+    clearTimers();
+    STEPS.forEach(s => setStep(s,'done'));
+
+    if (!res.ok) {
+      const e = await res.json().catch(()=>({}));
+      throw new Error(e.error?.message || `HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+    const text = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
+
+    let brief;
+    try {
+      const clean = text.replace(/```json\s*/g,'').replace(/```\s*/g,'').trim();
+      const s = clean.indexOf('{'), e = clean.lastIndexOf('}');
+      if (s===-1||e===-1) throw new Error('No JSON object in response');
+      brief = JSON.parse(clean.slice(s,e+1));
+    } catch(pe) {
+      console.error('Parse error:', pe, '\nRaw:', text);
+      throw new Error('Failed to parse response. Check console for raw output.');
+    }
+
+    const dateKey = today();
+    saveToHistory(dateKey, brief);
+    window._currentBrief = brief;
+    window._viewingDate = dateKey;
+
+    setStatus('LIVE', 'live');
+    showApp();
+    renderAll(brief, dateKey);
+
+  } catch(err) {
+    console.error(err);
+    clearTimers();
+    setStatus('ERROR', 'error');
+    $('err-msg').textContent = err.message || String(err);
+    showOverlay('err');
+    $('btn-refresh').disabled = false;
+  }
+
+  isRunning = false;
+}
+
+function retryRun() {
+  showOverlay('idle');
+  runBrief();
+}
+
+// ── RENDER ALL ───────────────────────────────────────────────
+function renderAll(brief, dateKey) {
+  const history = loadHistory();
+  const prev = getPrevBrief(history, dateKey);
+
+  renderSidebar(history, dateKey);
+  renderStrip(brief, prev);
+  renderTabs(brief, prev);
+  updateViewingLabel(dateKey);
+}
+
+function getPrevBrief(history, currentKey) {
+  const keys = Object.keys(history).sort().filter(k => k < currentKey);
+  return keys.length ? history[keys[keys.length-1]] : null;
+}
+
+function updateViewingLabel(dateKey) {
+  const tv = $('ts-viewing');
+  if (dateKey !== today()) {
+    tv.style.display = 'block';
+    tv.textContent = `VIEWING: ${fmtDate(dateKey)}`;
+  } else {
+    tv.style.display = 'none';
+  }
+}
+
+// ── SIDEBAR ──────────────────────────────────────────────────
+function renderSidebar(history, activeKey) {
+  const list = $('history-list');
+  const keys = Object.keys(history).sort().reverse();
+
+  if (!keys.length) {
+    list.innerHTML = `<div class="hist-empty">No history yet.<br>Run your first brief to start building your record.</div>`;
+    return;
+  }
+
+  list.innerHTML = keys.map(k => {
+    const b = history[k];
+    const r = b.macro?.regime||'';
+    const cls = r==='RISK ON'?'ron':r==='RISK OFF'?'rof':'neu';
+    const label = r==='RISK ON'?'R·ON':r==='RISK OFF'?'R·OFF':'NEU';
+    const isToday = k === today();
+    return `<div class="hist-item${k===activeKey?' active':''}" onclick="viewHistoric('${k}')">
+      <div class="hist-date">${isToday?'TODAY — ':''  }${fmtDate(k)}</div>
+      <span class="hist-regime ${cls}">${label}</span>
+    </div>`;
+  }).join('');
+}
+
+function viewHistoric(dateKey) {
+  const history = loadHistory();
+  const brief = history[dateKey];
+  if (!brief) return;
+
+  window._currentBrief = brief;
+  window._viewingDate = dateKey;
+
+  const prev = getPrevBrief(history, dateKey);
+  renderSidebar(history, dateKey);
+  renderStrip(brief, prev);
+  renderTabs(brief, prev);
+  updateViewingLabel(dateKey);
+
+  const isOld = dateKey !== today();
+  setStatus(isOld ? 'HISTORY' : 'LIVE', isOld ? 'running' : 'live');
+}
+
+// ── STRIP ────────────────────────────────────────────────────
+function renderStrip(d, prev) {
+  const m = d.macro||{};
+  const rc = m.regime==='RISK ON'?'var(--green)':m.regime==='RISK OFF'?'var(--red)':'var(--amber)';
+  const bc = m.dollar_bias==='BULLISH'?'var(--green)':m.dollar_bias==='BEARISH'?'var(--red)':'var(--amber)';
+
+  let regimeDelta = '';
+  let biasDelta = '';
+  if (prev) {
+    const pr = prev.macro?.regime||'';
+    const pb = prev.macro?.dollar_bias||'';
+    regimeDelta = pr !== m.regime ? `<span class="delta flip">FLIPPED</span>` : `<span class="delta same">SAME</span>`;
+    biasDelta = pb !== m.dollar_bias ? `<span class="delta flip">FLIPPED</span>` : `<span class="delta same">SAME</span>`;
+  } else {
+    regimeDelta = `<span class="delta new">NEW</span>`;
+    biasDelta = `<span class="delta new">NEW</span>`;
+  }
+
+  const top4 = (d.pair_outliers||[]).slice(0,4).map(p =>
+    `<span class="strip-pair ${p.direction||'long'}">${esc(p.pair)}</span>`).join('');
+
+  const strongest = [...(d.currency_strength||[])].sort((a,b)=>(a.rank||9)-(b.rank||9))
+    .slice(0,3).map(s=>`<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:var(--green);">${esc(s.currency)}</span>`).join(' ›&nbsp;');
+
+  $('strip').innerHTML = `
+    <div class="strip-block">
+      <div class="strip-label">RISK REGIME ${regimeDelta}</div>
+      <div class="strip-val" style="color:${rc}">${esc(m.regime||'—')}</div>
+    </div>
+    <div class="strip-block">
+      <div class="strip-label">USD BIAS ${biasDelta}</div>
+      <div class="strip-val" style="color:${bc}">${esc(m.dollar_bias||'—')}</div>
+    </div>
+    <div class="strip-block">
+      <div class="strip-label">TOP CONVICTION</div>
+      <div class="strip-pairs">${top4}</div>
+    </div>
+    <div class="strip-block">
+      <div class="strip-label">STRONGEST CCY</div>
+      <div style="display:flex;align-items:center;gap:6px;">${strongest}</div>
+    </div>
+    <div class="strip-block" style="border-right:none;margin-left:auto;">
+      <div class="strip-label">GENERATED</div>
+      <div class="strip-sub" style="font-size:10px;color:var(--text2);">${d.generated_at ? new Date(d.generated_at).toUTCString().replace(' GMT','') : '—'}</div>
+    </div>`;
+}
+
+// ── TABS ─────────────────────────────────────────────────────
+function renderTabs(d, prev) {
+  const macroColor = d.macro?.regime==='RISK ON'?'green':d.macro?.regime==='RISK OFF'?'red':'amber';
+  const outColor = d.pair_outliers?.[0]?.direction==='long'?'green':'red';
+
+  const tabs = [
+    { id:'macro',   label:'MACRO',        pip:'pip-'+macroColor,  html: tabMacro(d,prev)       },
+    { id:'cb',      label:'CENTRAL BANKS',pip:'pip-blue',         html: tabCB(d,prev)          },
+    { id:'cot',     label:'COT',          pip:'pip-amber',        html: tabCOT(d,prev)         },
+    { id:'cal',     label:'CALENDAR',     pip:'pip-red',          html: tabCalendar(d,prev)    },
+    { id:'comm',    label:'COMMODITIES',  pip:'pip-gold',         html: tabCommodities(d,prev) },
+    { id:'str',     label:'STRENGTH',     pip:'pip-green',        html: tabStrength(d,prev)    },
+    { id:'out',     label:'OUTLIERS',     pip:'pip-'+outColor,    html: tabOutliers(d,prev)    },
+    { id:'matrix',  label:'28 PAIRS',     pip:'pip-gray',         html: tabMatrix(d,prev)      },
+    { id:'analyst', label:'ANALYST',      pip:'pip-blue',         html: tabAnalyst(d,prev)     },
+  ];
+
+  $('tabbar').innerHTML = tabs.map((t,i) =>
+    `<button class="tab${i===0?' active':''}" onclick="switchTab(${i})" id="tab-${t.id}">
+      <span class="tab-pip ${t.pip}"></span>${t.label}
+    </button>`).join('');
+
+  $('panels').innerHTML = tabs.map((t,i) =>
+    `<div class="panel${i===0?' active':''}" id="panel-${t.id}">${t.html}</div>`).join('');
+}
+
+let _activeTab = 0;
+function switchTab(i) {
+  _activeTab = i;
+  document.querySelectorAll('.tab').forEach((b,j) => b.classList.toggle('active',j===i));
+  document.querySelectorAll('.panel').forEach((p,j) => p.classList.toggle('active',j===i));
+}
+
+// ── DELTA HELPERS ────────────────────────────────────────────
+function deltaBar(tags) {
+  if (!tags || !tags.length) return '';
+  const inner = tags.map(([label, type]) =>
+    `<span class="delta-tag ${type}">${esc(label)}</span>`).join('');
+  return `<div class="delta-bar"><span class="delta-bar-label">vs yesterday ·</span>${inner}</div>`;
+}
+
+function diffVal(current, previous, label) {
+  if (!previous) return [label + ' · NEW', 'new'];
+  return current !== previous
+    ? [label + ': ' + esc(String(previous)) + ' → ' + esc(String(current)), 'changed']
+    : [label + ' · UNCHANGED', 'same'];
+}
+
+// ── TAB: MACRO ───────────────────────────────────────────────
+function tabMacro(d, prev) {
+  const m = d.macro||{};
+  const rc = m.regime==='RISK ON'?'risk-on':m.regime==='RISK OFF'?'risk-off':'neutral';
+  const bc = m.dollar_bias==='BULLISH'?'var(--green)':m.dollar_bias==='BEARISH'?'var(--red)':'var(--amber)';
+
+  const deltas = [];
+  if (prev) {
+    deltas.push(diffVal(m.regime, prev.macro?.regime, 'Regime'));
+    deltas.push(diffVal(m.dollar_bias, prev.macro?.dollar_bias, 'USD Bias'));
+  }
+
+  return `
+    ${deltaBar(deltas)}
+    <div class="card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:16px;">
+        <div>
+          <div class="sl" style="margin-bottom:6px;">RISK REGIME</div>
+          <div class="regime-badge ${rc}">${esc(m.regime||'NEUTRAL')}</div>
+        </div>
+        <div>
+          <div class="sl" style="margin-bottom:6px;">USD BIAS</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:700;color:${bc};">${esc(m.dollar_bias||'NEUTRAL')}</div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--text1);line-height:1.7;border-top:1px solid var(--border);padding-top:14px;">${esc(m.summary||'')}</div>
+    </div>`;
+}
+
+// ── TAB: CENTRAL BANKS ───────────────────────────────────────
+function tabCB(d, prev) {
+  const deltas = [];
+  if (prev) {
+    (d.central_banks||[]).forEach(cb => {
+      const pcb = (prev.central_banks||[]).find(p=>p.currency===cb.currency);
+      if (pcb && cb.stance !== pcb.stance)
+        deltas.push([`${cb.currency} stance: ${pcb.stance}→${cb.stance}`, 'flip']);
+    });
+    if (!deltas.length) deltas.push(['All stances unchanged', 'same']);
+  }
+
+  const cards = (d.central_banks||[]).map(cb => {
+    const stance = esc(cb.stance||'hold');
+    const pcb = prev ? (prev.central_banks||[]).find(p=>p.currency===cb.currency) : null;
+    const toneChanged = pcb && pcb.tone !== cb.tone;
+    const topColor = cb.stance==='hawkish'?'var(--green)':cb.stance==='dovish'?'var(--red)':'var(--text3)';
+    return `<div class="card">
+      <div class="card-top" style="background:${topColor}"></div>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px;">
+        <div>
+          <div class="cb-ccy">${esc(cb.currency)}</div>
+          <div class="cb-bank">${esc(cb.bank)}</div>
+        </div>
+        <span class="stance ${stance}">${stance.toUpperCase()}</span>
+      </div>
+      <div class="cb-rate">${esc(cb.rate)}<span class="pct">%</span></div>
+      <div class="cb-mtg">NEXT · ${esc(cb.next_meeting||'TBD')}</div>
+      <div class="cb-tone">${toneChanged?'<span class="delta changed" style="margin-bottom:4px;display:inline-block;">TONE UPDATED</span><br>':''  }${esc(cb.tone||'')}</div>
+    </div>`;
+  }).join('');
+
+  return `${deltaBar(deltas)}<div class="g4">${cards}</div>`;
+}
+
+// ── TAB: COT ─────────────────────────────────────────────────
+function tabCOT(d, prev) {
+  const deltas = [];
+  if (prev) {
+    (d.cot||[]).forEach(c => {
+      const pc = (prev.cot||[]).find(p=>p.currency===c.currency);
+      if (pc && pc.direction !== c.direction)
+        deltas.push([`${c.currency} flipped ${pc.direction}→${c.direction}`, 'flip']);
+    });
+    if (!deltas.length) deltas.push(['No direction flips', 'same']);
+  }
+
+  const rows = (d.cot||[]).map(c => {
+    const pct = Math.min(Math.abs(c.net_position||0)/150000*100, 100);
+    const dir = c.direction==='long'?'long':'short';
+    const chg = c.weekly_change||0;
+    const ext = c.extreme ? `<span style="color:var(--amber);font-size:9px;margin-left:3px;" title="Extreme positioning">⚠</span>` : '';
+    const pc = prev ? (prev.cot||[]).find(p=>p.currency===c.currency) : null;
+    const flipped = pc && pc.direction !== c.direction;
+    return `<tr>
+      <td style="font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--text0);">${esc(c.currency)}${ext}${flipped?`<span class="delta flip" style="margin-left:4px;">FLIP</span>`:''}</td>
+      <td class="cot-${dir}">${(c.net_position||0).toLocaleString()}</td>
+      <td><div class="cot-bar"><div class="cot-fill ${dir}" style="width:${pct/2}%"></div></div></td>
+      <td class="${chg>=0?'cot-long':'cot-short'}" style="font-size:11px;">${chg>=0?'+':''}${chg.toLocaleString()}</td>
+      <td style="color:var(--text2);font-size:10px;">${esc(c.note||'')}</td>
+    </tr>`;
+  }).join('');
+
+  return `${deltaBar(deltas)}
+    <div class="card" style="overflow-x:auto;">
+      <table class="cot-t">
+        <thead><tr><th>CCY</th><th>NET POSITION</th><th>BIAS</th><th>WK CHANGE</th><th>NOTE</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+// ── TAB: CALENDAR ────────────────────────────────────────────
+function tabCalendar(d, prev) {
+  const events = d.calendar||[];
+  const redCount = events.filter(e=>e.impact==='red').length;
+  const deltas = prev ? [[`${redCount} red-impact events this week`, redCount>2?'changed':'same']] : [['New week calendar loaded','new']];
+
+  const rows = events.map(ev => `
+    <div class="ev">
+      <div class="ev-time">${esc(ev.day||'')} ${esc(ev.time||'')}</div>
+      <div class="ev-dot ${ev.impact||'orange'}"></div>
+      <div class="ev-ccy">${esc(ev.currency)}</div>
+      <div class="ev-name">${esc(ev.event)}<div class="ev-fc">F: ${esc(ev.forecast||'—')} · P: ${esc(ev.previous||'—')}</div></div>
+    </div>`).join('') || `<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text3);padding:12px 0;">No high-impact events found for this week.</div>`;
+
+  return `${deltaBar(deltas)}<div class="card">${rows}</div>`;
+}
+
+// ── TAB: COMMODITIES ─────────────────────────────────────────
+function tabCommodities(d, prev) {
+  const deltas = [];
+  if (prev) {
+    (d.commodities||[]).forEach(c => {
+      const pc = (prev.commodities||[]).find(p=>p.name===c.name);
+      if (pc && pc.trend !== c.trend)
+        deltas.push([`${c.name} trend: ${pc.trend}→${c.trend}`, 'flip']);
+    });
+    if (!deltas.length) deltas.push(['Commodity trends unchanged', 'same']);
+  }
+
+  const cards = (d.commodities||[]).map(c => {
+    const chg = parseFloat(c.change_pct||0);
+    const pc = c.name?.toLowerCase().includes('gold') ? 'var(--gold)' : 'var(--text0)';
+    return `<div class="card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px;">
+        <div><div class="comm-name">${esc(c.name)}</div><div class="comm-sym">${esc(c.symbol)}</div></div>
+        <span class="trend-b ${c.trend||'neutral'}">${(c.trend||'NEUTRAL').toUpperCase()}</span>
+      </div>
+      <div class="comm-price" style="color:${pc}">$${esc(c.price)}</div>
+      <div class="comm-chg ${chg>=0?'up':'dn'}">${chg>=0?'+':''}${esc(c.change_pct)}%</div>
+      <div class="comm-corr">${esc(c.correlation)}</div>
+    </div>`;
+  }).join('');
+
+  return `${deltaBar(deltas)}<div class="g3">${cards}</div>`;
+}
+
+// ── TAB: STRENGTH ────────────────────────────────────────────
+function tabStrength(d, prev) {
+  const sorted = [...(d.currency_strength||[])].sort((a,b)=>(a.rank||9)-(b.rank||9));
+
+  const deltas = [];
+  if (prev) {
+    const prevSorted = [...(prev.currency_strength||[])].sort((a,b)=>(a.rank||9)-(b.rank||9));
+    const movers = sorted.filter(s => {
+      const ps = prevSorted.find(p=>p.currency===s.currency);
+      return ps && Math.abs((ps.rank||0)-(s.rank||0)) >= 2;
+    });
+    movers.forEach(s => {
+      const ps = prevSorted.find(p=>p.currency===s.currency);
+      deltas.push([`${s.currency} #${ps.rank}→#${s.rank}`, (s.rank||0)<(ps?.rank||0)?'changed':'changed']);
+    });
+    if (!deltas.length) deltas.push(['Rankings stable', 'same']);
+  }
+
+  const bars = sorted.map(s => {
+    const score = s.score||0;
+    const bc = score>=65?'var(--green)':score<=35?'var(--red)':'var(--amber)';
+    const chg = s.weekly_change||'0%';
+    const cc = chg.startsWith('+')?'var(--green)':chg.startsWith('-')?'var(--red)':'var(--text3)';
+    return `<div class="str-r">
+      <div class="str-rank">${s.rank||''}</div>
+      <div class="str-ccy" style="color:${bc}">${esc(s.currency)}</div>
+      <div class="str-bar"><div class="str-fill" style="width:${score}%;background:${bc}"></div></div>
+      <div class="str-score" style="color:${bc}">${score}</div>
+      <div class="str-chg" style="color:${cc}">${esc(chg)}</div>
+    </div>`;
+  }).join('');
+
+  const top = sorted[0]||{};
+  const bot = sorted[sorted.length-1]||{};
+  const spread = (top.score||0)-(bot.score||0);
+
+  return `${deltaBar(deltas)}
+    <div class="g2">
+      <div class="card">${bars}</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card">
+          <div class="sl">STRONGEST</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:36px;font-weight:700;color:var(--green);line-height:1;">${esc(top.currency||'—')}</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);margin-top:4px;">Score ${top.score||0} · ${esc(top.weekly_change||'')}</div>
+        </div>
+        <div class="card">
+          <div class="sl">WEAKEST</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:36px;font-weight:700;color:var(--red);line-height:1;">${esc(bot.currency||'—')}</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);margin-top:4px;">Score ${bot.score||0} · ${esc(bot.weekly_change||'')}</div>
+        </div>
+        <div class="card">
+          <div class="sl">SPREAD</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:700;color:var(--accent);line-height:1;">${spread} pts</div>
+          <div style="font-size:11px;color:var(--text2);margin-top:4px;">Strongest vs weakest delta</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ── TAB: OUTLIERS ────────────────────────────────────────────
+function tabOutliers(d, prev) {
+  const deltas = [];
+  if (prev) {
+    (d.pair_outliers||[]).forEach(o => {
+      const po = (prev.pair_outliers||[]).find(p=>p.pair===o.pair);
+      if (!po) deltas.push([`${o.pair} newly in top outliers`, 'new']);
+      else if (po.direction !== o.direction) deltas.push([`${o.pair} flipped ${po.direction}→${o.direction}`, 'flip']);
+    });
+    if (!deltas.length) deltas.push(['Same pairs, same direction', 'same']);
+  }
+
+  const rows = (d.pair_outliers||[]).map(o => {
+    const conv = o.conviction||0;
+    const dir = o.direction==='long'?'long':'short';
+    return `<tr>
+      <td class="pair-nm">${esc(o.pair)}</td>
+      <td><span class="dir-t ${dir}">${dir.toUpperCase()}</span></td>
+      <td>
+        <div class="conv-b"><div class="conv-f ${dir}" style="width:${conv}%"></div></div>
+        <span style="font-size:11px;color:${dir==='long'?'var(--green)':'var(--red)'};">${conv}</span>
+      </td>
+      <td style="color:var(--text2);font-size:11px;max-width:280px;">${esc(o.rationale)}</td>
+      <td style="font-size:11px;color:var(--gold);">${esc(o.key_level||'—')}</td>
+    </tr>`;
+  }).join('');
+
+  return `${deltaBar(deltas)}
+    <div class="card" style="overflow-x:auto;">
+      <table class="out-t">
+        <thead><tr><th>PAIR</th><th>BIAS</th><th>CONVICTION</th><th>RATIONALE</th><th>KEY LEVEL</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+// ── TAB: MATRIX ──────────────────────────────────────────────
+function tabMatrix(d, prev) {
+  const flipped = [];
+  if (prev) {
+    (d.pair_summary_table||[]).forEach(p => {
+      const pp = (prev.pair_summary_table||[]).find(x=>x.pair===p.pair);
+      if (pp && pp.direction !== p.direction) flipped.push(p.pair);
+    });
+  }
+
+  const deltas = flipped.length
+    ? flipped.map(p => [`${p} flipped`, 'flip'])
+    : prev ? [['No direction flips vs yesterday', 'same']] : [];
+
+  const cells = (d.pair_summary_table||[]).map(p => {
+    const dir = p.direction==='long'?'long':'short';
+    const conv = p.conviction||0;
+    const bg = dir==='long' ? `rgba(16,185,129,${conv/100*0.28})` : `rgba(239,68,68,${conv/100*0.28})`;
+    const border = dir==='long' ? 'rgba(16,185,129,0.18)' : 'rgba(239,68,68,0.18)';
+    const color = dir==='long' ? 'var(--green)' : 'var(--red)';
+    const isFlipped = flipped.includes(p.pair);
+    return `<div class="pc" data-dir="${dir}" data-conv="${conv}" style="background:${bg};border:1px solid ${isFlipped?'var(--gold)':border};" title="${p.pair} · ${dir.toUpperCase()} · conviction ${conv}${isFlipped?' · FLIPPED TODAY':''}">
+      <div class="pc-name" style="color:${isFlipped?'var(--gold)':color};">${esc(p.pair)}</div>
+      <div class="pc-meta" style="color:${isFlipped?'var(--gold)':color};">${dir.toUpperCase()} ${conv}${isFlipped?' ↺':''}</div>
+    </div>`;
+  }).join('');
+
+  return `${deltaBar(deltas)}
+    <div class="mf-row">
+      <button class="mfbtn active" onclick="matrixFilter('all',this)">ALL 28</button>
+      <button class="mfbtn lf" onclick="matrixFilter('long',this)">▲ LONGS</button>
+      <button class="mfbtn sf" onclick="matrixFilter('short',this)">▼ SHORTS</button>
+      <button class="mfbtn" onclick="matrixFilter('high',this)">HIGH CONVICTION ≥70</button>
+      ${flipped.length ? `<button class="mfbtn" onclick="matrixFilter('flipped',this)" style="border-color:var(--gold);color:var(--gold);">↺ FLIPPED TODAY (${flipped.length})</button>` : ''}
+    </div>
+    <div class="card">
+      <div class="pair-grid" id="pair-grid">${cells}</div>
+    </div>`;
+}
+
+function matrixFilter(type, btn) {
+  document.querySelectorAll('.mfbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.pc').forEach(c => {
+    const dir = c.dataset.dir;
+    const conv = parseInt(c.dataset.conv)||0;
+    const flipped = c.querySelector('.pc-meta')?.textContent?.includes('↺');
+    let hide = false;
+    if (type==='long' && dir!=='long') hide=true;
+    if (type==='short' && dir!=='short') hide=true;
+    if (type==='high' && conv<70) hide=true;
+    if (type==='flipped' && !flipped) hide=true;
+    c.classList.toggle('dim', hide);
+  });
+}
+
+// ── TAB: ANALYST ─────────────────────────────────────────────
+function tabAnalyst(d, prev) {
+  const deltas = prev ? [['Commentary updated from previous session', 'changed']] : [];
+  return `${deltaBar(deltas)}
+    <div class="card" style="padding:20px 24px;">
+      <div class="analyst-body">${esc(d.analyst_note||'')}</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text3);margin-top:20px;letter-spacing:0.1em;">
+        CLAUDE SONNET · ${d.generated_at ? new Date(d.generated_at).toUTCString().replace(' GMT','') : ''} UTC
+      </div>
+    </div>`;
+}
+
+// ── SNAPSHOT EXPORT ──────────────────────────────────────────
+function downloadSnapshot() {
+  const brief = window._currentBrief;
+  if (!brief) return;
+
+  const dateStr = window._viewingDate || today();
+  const m = brief.macro||{};
+  const rc = m.regime==='RISK ON'?'#10b981':m.regime==='RISK OFF'?'#ef4444':'#f59e0b';
+  const bc = m.dollar_bias==='BULLISH'?'#10b981':m.dollar_bias==='BEARISH'?'#ef4444':'#f59e0b';
+
+  const cbRows = (brief.central_banks||[]).map(cb => {
+    const sc = cb.stance==='hawkish'?'#10b981':cb.stance==='dovish'?'#ef4444':'#f59e0b';
+    return `<div style="background:#0f1114;border:1px solid rgba(255,255,255,0.055);border-radius:4px;padding:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;color:#e8eaf0;">${esc(cb.currency)}</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:#455060;letter-spacing:0.1em;text-transform:uppercase;">${esc(cb.bank)}</div>
+        </div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;color:${sc};background:${sc}22;">${(cb.stance||'hold').toUpperCase()}</span>
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:700;color:#e8eaf0;line-height:1;margin:6px 0;">${esc(cb.rate)}<span style="font-size:12px;color:#8892a4;font-weight:400;">%</span></div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:#455060;margin-bottom:8px;">NEXT · ${esc(cb.next_meeting||'TBD')}</div>
+      <div style="font-size:11px;color:#8892a4;border-top:1px solid rgba(255,255,255,0.055);padding-top:8px;line-height:1.5;">${esc(cb.tone||'')}</div>
+    </div>`;
+  }).join('');
+
+  const cotRows = (brief.cot||[]).map(c => {
+    const dir = c.direction==='long';
+    const color = dir?'#10b981':'#ef4444';
+    return `<tr style="border-bottom:1px solid rgba(255,255,255,0.03);">
+      <td style="font-family:'IBM Plex Mono',monospace;font-size:12px;padding:8px 10px;font-weight:700;color:#e8eaf0;">${esc(c.currency)}${c.extreme?' ⚠':''}</td>
+      <td style="font-family:'IBM Plex Mono',monospace;font-size:12px;padding:8px 10px;color:${color};">${(c.net_position||0).toLocaleString()}</td>
+      <td style="font-family:'IBM Plex Mono',monospace;font-size:12px;padding:8px 10px;color:${(c.weekly_change||0)>=0?'#10b981':'#ef4444'};">${(c.weekly_change||0)>=0?'+':''}${(c.weekly_change||0).toLocaleString()}</td>
+      <td style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:8px 10px;color:#8892a4;">${esc(c.note||'')}</td>
+    </tr>`;
+  }).join('');
+
+  const calRows = (brief.calendar||[]).map(ev => {
+    const dc = ev.impact==='red'?'#ef4444':'#f59e0b';
+    return `<div style="display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.03);">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#455060;min-width:62px;">${esc(ev.day||'')} ${esc(ev.time||'')}</div>
+      <div style="width:6px;height:6px;border-radius:50%;background:${dc};flex-shrink:0;margin-top:3px;"></div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;background:#1c2030;color:#8892a4;padding:2px 5px;border-radius:2px;flex-shrink:0;">${esc(ev.currency)}</div>
+      <div style="flex:1;font-size:12px;color:#c8cad4;">${esc(ev.event)}<div style="font-size:10px;color:#455060;font-family:'IBM Plex Mono',monospace;margin-top:2px;">F: ${esc(ev.forecast||'—')} · P: ${esc(ev.previous||'—')}</div></div>
+    </div>`;
+  }).join('');
+
+  const commCards = (brief.commodities||[]).map(c => {
+    const chg = parseFloat(c.change_pct||0);
+    const cc = chg>=0?'#10b981':'#ef4444';
+    const pc = c.name?.toLowerCase().includes('gold')?'#F5A623':'#e8eaf0';
+    const tc = c.trend==='bullish'?'#10b981':c.trend==='bearish'?'#ef4444':'#f59e0b';
+    return `<div style="background:#0f1114;border:1px solid rgba(255,255,255,0.055);border-radius:4px;padding:14px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+        <div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#8892a4;">${esc(c.name)}</div></div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;padding:2px 6px;border-radius:2px;color:${tc};background:${tc}22;">${(c.trend||'NEUTRAL').toUpperCase()}</span>
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:700;color:${pc};margin:6px 0 2px;">$${esc(c.price)}</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:${cc};">${chg>=0?'+':''}${esc(c.change_pct)}%</div>
+      <div style="font-size:11px;color:#8892a4;border-top:1px solid rgba(255,255,255,0.055);padding-top:8px;margin-top:8px;line-height:1.5;">${esc(c.correlation)}</div>
+    </div>`;
+  }).join('');
+
+  const strRows = [...(brief.currency_strength||[])].sort((a,b)=>(a.rank||9)-(b.rank||9)).map(s => {
+    const score = s.score||0;
+    const bc2 = score>=65?'#10b981':score<=35?'#ef4444':'#f59e0b';
+    const chg = s.weekly_change||'0%';
+    const cc = chg.startsWith('+')?'#10b981':chg.startsWith('-')?'#ef4444':'#455060';
+    return `<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.03);">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#455060;width:14px;text-align:right;">${s.rank||''}</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;color:${bc2};width:34px;">${esc(s.currency)}</div>
+      <div style="flex:1;height:5px;background:#1c2030;border-radius:3px;overflow:hidden;"><div style="height:100%;width:${score}%;background:${bc2};border-radius:3px;"></div></div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:${bc2};width:28px;text-align:right;">${score}</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:${cc};width:44px;text-align:right;">${esc(chg)}</div>
+    </div>`;
+  }).join('');
+
+  const outRows = (brief.pair_outliers||[]).map(o => {
+    const conv = o.conviction||0;
+    const dir = o.direction==='long'?'long':'short';
+    const dc = dir==='long'?'#10b981':'#ef4444';
+    return `<tr style="border-bottom:1px solid rgba(255,255,255,0.03);">
+      <td style="font-family:'IBM Plex Mono',monospace;font-size:12px;padding:8px 10px;font-weight:700;color:#e8eaf0;letter-spacing:0.05em;">${esc(o.pair)}</td>
+      <td style="padding:8px 10px;"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;color:${dc};background:${dc}1a;">${dir.toUpperCase()}</span></td>
+      <td style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:8px 10px;color:${dc};">${conv}</td>
+      <td style="font-size:11px;padding:8px 10px;color:#8892a4;">${esc(o.rationale)}</td>
+      <td style="font-size:11px;padding:8px 10px;color:#F5A623;">${esc(o.key_level||'—')}</td>
+    </tr>`;
+  }).join('');
+
+  const matrixCells = (brief.pair_summary_table||[]).map(p => {
+    const dir = p.direction==='long';
+    const conv = p.conviction||0;
+    const bg = dir?`rgba(16,185,129,${conv/100*0.28})`:`rgba(239,68,68,${conv/100*0.28})`;
+    const border = dir?'rgba(16,185,129,0.18)':'rgba(239,68,68,0.18)';
+    const color = dir?'#10b981':'#ef4444';
+    return `<div style="background:${bg};border:1px solid ${border};border-radius:3px;padding:7px 5px;text-align:center;font-family:'IBM Plex Mono',monospace;">
+      <div style="font-size:10px;font-weight:700;color:${color};letter-spacing:0.04em;">${esc(p.pair)}</div>
+      <div style="font-size:9px;color:${color};opacity:0.8;margin-top:2px;">${p.direction==='long'?'LONG':'SHORT'} ${conv}</div>
+    </div>`;
+  }).join('');
+
+  const genAt = brief.generated_at ? new Date(brief.generated_at).toUTCString().replace(' GMT','') : new Date().toUTCString().replace(' GMT','');
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>FX Brief — ${dateStr}</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0a0b0d;color:#e8eaf0;font-family:'IBM Plex Sans',sans-serif;padding:0;}
+.wrap{max-width:1200px;margin:0 auto;padding:32px 24px;}
+.topbar{background:#0f1114;border-bottom:1px solid rgba(255,255,255,0.055);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;margin-bottom:0;}
+.logo{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;letter-spacing:0.2em;color:#3b82f6;}
+.logo em{color:#455060;font-style:normal;font-weight:400;}
+.gen{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#455060;}
+.strip{display:flex;flex-wrap:wrap;background:#0f1114;border-bottom:1px solid rgba(255,255,255,0.055);padding:0;}
+.sb{padding:12px 18px;border-right:1px solid rgba(255,255,255,0.055);}
+.sl{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#455060;margin-bottom:4px;}
+.sv{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:700;line-height:1;}
+.sec{margin-bottom:28px;}
+.sec-label{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:#455060;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.sec-label::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.055);}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.card{background:#0f1114;border:1px solid rgba(255,255,255,0.055);border-radius:4px;padding:14px;}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:5px;}
+.disc{font-size:10px;color:#455060;text-align:center;padding:16px 24px;border-top:1px solid rgba(255,255,255,0.055);margin-top:8px;}
+@media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr);}.g3{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo">FX<em>/</em>BRIEF <span style="color:#455060;font-weight:400;font-size:11px;margin-left:8px;">${dateStr}</span></div>
+  <div class="gen">Generated ${genAt} UTC · TPTraders</div>
+</div>
+<div class="strip">
+  <div class="sb"><div class="sl">RISK REGIME</div><div class="sv" style="color:${rc}">${esc(m.regime||'—')}</div></div>
+  <div class="sb"><div class="sl">USD BIAS</div><div class="sv" style="color:${bc}">${esc(m.dollar_bias||'—')}</div></div>
+  <div class="sb"><div class="sl">TOP CONVICTION</div><div style="display:flex;gap:5px;margin-top:4px;">${(brief.pair_outliers||[]).slice(0,4).map(p=>`<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;padding:2px 6px;border-radius:2px;color:${p.direction==='long'?'#10b981':'#ef4444'};background:${p.direction==='long'?'rgba(16,185,129,0.1)':'rgba(239,68,68,0.1)'};">${esc(p.pair)}</span>`).join('')}</div></div>
+</div>
+<div class="wrap">
+  <div class="sec"><div class="sec-label">Macro environment</div>
+    <div class="card" style="padding:18px;">
+      <div style="display:flex;gap:32px;flex-wrap:wrap;margin-bottom:14px;">
+        <div><div style="font-family:'IBM Plex Mono',monospace;font-size:8px;color:#455060;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:4px;">RISK REGIME</div><div style="font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:700;color:${rc};line-height:1;">${esc(m.regime||'NEUTRAL')}</div></div>
+        <div><div style="font-family:'IBM Plex Mono',monospace;font-size:8px;color:#455060;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:4px;">USD BIAS</div><div style="font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:700;color:${bc};line-height:1;">${esc(m.dollar_bias||'NEUTRAL')}</div></div>
+      </div>
+      <div style="font-size:13px;color:#c8cad4;line-height:1.7;border-top:1px solid rgba(255,255,255,0.055);padding-top:14px;">${esc(m.summary||'')}</div>
+    </div>
+  </div>
+  <div class="sec"><div class="sec-label">Central banks</div><div class="g4">${cbRows}</div></div>
+  <div class="sec"><div class="sec-label">COT — speculative positioning</div>
+    <div class="card" style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;">
+        <thead><tr>${['CCY','NET POSITION','WK CHANGE','NOTE'].map(h=>`<th style="font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#455060;text-align:left;padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.055);">${h}</th>`).join('')}</tr></thead>
+        <tbody>${cotRows}</tbody>
+      </table>
+    </div>
+  </div>
+  <div class="g2 sec">
+    <div><div class="sec-label">Economic calendar</div><div class="card">${calRows||'<div style="font-family:IBM Plex Mono,monospace;font-size:11px;color:#455060;padding:12px 0;">No high-impact events.</div>'}</div></div>
+    <div><div class="sec-label">Commodities</div><div style="display:flex;flex-direction:column;gap:10px;">${commCards}</div></div>
+  </div>
+  <div class="g2 sec">
+    <div><div class="sec-label">Currency strength</div><div class="card">${strRows}</div></div>
+    <div><div class="sec-label">Top pair outliers</div>
+      <div class="card" style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;">
+          <thead><tr>${['PAIR','BIAS','CONV','RATIONALE','LEVEL'].map(h=>`<th style="font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#455060;text-align:left;padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.055);">${h}</th>`).join('')}</tr></thead>
+          <tbody>${outRows}</tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="sec"><div class="sec-label">28-pair conviction matrix</div><div class="card"><div class="pg">${matrixCells}</div></div></div>
+  <div class="sec"><div class="sec-label">Analyst note</div>
+    <div class="card" style="border-left:2px solid #3b82f6;padding:18px 18px 18px 22px;">
+      <div style="font-size:13px;color:#c8cad4;line-height:1.8;font-style:italic;">${esc(brief.analyst_note||'')}</div>
+    </div>
+  </div>
+  <div class="disc">FX Brief · ${dateStr} · TPTraders · Not financial advice · Verify all data before trading</div>
+</div>
+</body>
+</html>`;
+
+  const blob = new Blob([html], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `fx-brief-${dateStr}.html`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+function init() {
+  const history = loadHistory();
+  const todayKey = today();
+  const todayBrief = history[todayKey];
+
+  if (todayBrief) {
+    // already have today's brief — show it directly
+    window._currentBrief = todayBrief;
+    window._viewingDate = todayKey;
+    setStatus('LIVE', 'live');
+    showApp();
+    renderAll(todayBrief, todayKey);
+  } else {
+    // no brief for today — check if we have any history to show
+    const keys = Object.keys(history).sort().reverse();
+    if (keys.length > 0) {
+      // show most recent while idle
+      const latestKey = keys[0];
+      const latestBrief = history[latestKey];
+      window._currentBrief = latestBrief;
+      window._viewingDate = latestKey;
+      setStatus("YESTERDAY'S BRIEF", 'running');
+      showApp();
+      renderAll(latestBrief, latestKey);
+      // auto-run today's brief
+      setTimeout(() => runBrief(), 800);
+    } else {
+      // completely fresh — show idle screen
+      showOverlay('idle');
+    }
+  }
+}
+
+// boot
+init();
+</script>
+</body>
+</html>
