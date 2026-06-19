@@ -1,0 +1,41 @@
+name: Generate FX Morning Brief
+
+on:
+  schedule:
+    # 13:00 UTC = 8:00 AM ET (UTC-5 winter / UTC-4 summer — cron uses UTC)
+    # Runs Mon–Fri. During EDT (Mar–Nov) this is 9:00 AM ET — adjust to 12:00 UTC for EDT.
+    # Using 12:00 UTC so it fires at 8:00 AM EDT (summer) and 7:00 AM EST (winter — still early enough).
+    - cron: '0 12 * * 1-5'
+  workflow_dispatch:   # also allows manual trigger from GitHub Actions tab
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install @anthropic-ai/sdk
+
+      - name: Generate brief
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node generate-brief.js
+
+      - name: Regenerate archive index
+        run: node regenerate-archive.js
+
+      - name: Commit and push
+        run: |
+          git config user.name "TPTraders Bot"
+          git config user.email "actions@github.com"
+          git add index.html archive/ archive.html
+          git diff --staged --quiet || git commit -m "FX Brief $(date -u '+%Y-%m-%d') auto-generated"
+          git push origin master

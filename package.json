@@ -1,0 +1,12 @@
+{
+  "name": "forex-brief-generator",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "TPTraders FX Morning Brief auto-generator",
+  "scripts": {
+    "generate": "node generate-brief.js && node regenerate-archive.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0"
+  }
+}
