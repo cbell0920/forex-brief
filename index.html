@@ -1,576 +1,566 @@
-Now I have all the data I need. Let me compile everything and generate the complete HTML file.
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FX Morning Brief — 2026-06-22 — TPTraders</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FX Morning Brief — 2026-06-24 — TPTraders</title>
 <style>
-  :root {
-    --bg-primary: #0a0e1a;
-    --bg-card: #0f1629;
-    --border: #1e2d4a;
-    --text-primary: #e2e8f0;
-    --text-muted: #7c8fa6;
-    --cyan: #00d4ff;
-    --amber: #f59e0b;
-    --green: #22c55e;
-    --red: #ef4444;
-    --green-dim: #166534;
-    --red-dim: #7f1d1d;
-    --amber-dim: #78350f;
-    --gray: #4b5563;
-  }
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0e1a;color:#e2e8f0;font-family:'Inter',system-ui,sans-serif;padding:20px;line-height:1.6}
+a{color:#00d4ff;text-decoration:none}
+a:hover{text-decoration:underline}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+.hdr{background:#0d1221;border:1px solid #1e2d4a;border-radius:12px;padding:16px 22px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.hdr-left .title{font-size:20px;font-weight:700;color:#fff;letter-spacing:.3px}
+.hdr-left .sub{font-size:12px;color:#64748b;margin-top:3px}
+.hub-link{color:#00d4ff;font-size:12px;font-weight:600;border:1px solid #00d4ff33;padding:5px 12px;border-radius:6px}
+.hub-link:hover{background:#00d4ff14;text-decoration:none}
 
-  body {
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
-    font-size: 13px;
-    line-height: 1.6;
-    min-height: 100vh;
-  }
+.warn{background:#0f1a14;border:1px solid #22c55e33;border-radius:8px;padding:8px 16px;font-size:11px;color:#4ade80;margin-bottom:18px}
 
-  /* HEADER */
-  .header-bar {
-    background: linear-gradient(90deg, #060b18 0%, #0d1a35 50%, #060b18 100%);
-    border-bottom: 2px solid var(--cyan);
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .header-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--cyan);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-  .header-meta {
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-  .header-disclaimer {
-    font-size: 10px;
-    background: var(--amber-dim);
-    color: var(--amber);
-    border: 1px solid var(--amber);
-    border-radius: 4px;
-    padding: 2px 8px;
-    letter-spacing: 1px;
-  }
+.section{margin-bottom:26px}
+.section-title{font-size:10px;font-weight:700;color:#00d4ff;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #1e2d4a}
 
-  /* LAYOUT */
-  .container { max-width: 1400px; margin: 0 auto; padding: 20px 16px; }
-  .section { margin-bottom: 28px; }
-  .section-title {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--cyan);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 8px;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .section-title::before {
-    content: '';
-    display: inline-block;
-    width: 3px;
-    height: 14px;
-    background: var(--cyan);
-    border-radius: 2px;
-  }
+/* regime cards */
+.regime-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.regime-card{background:#111827;border:1px solid #1e2d4a;border-radius:8px;padding:12px;text-align:center}
+.rc-label{font-size:9px;color:#64748b;text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
+.rc-value{font-size:15px;font-weight:700;color:#fff}
+.rc-sub{font-size:10px;color:#64748b;margin-top:4px;line-height:1.4}
 
-  /* CARDS */
-  .card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 16px;
-  }
+/* macro text */
+.macro-text{font-size:13px;color:#94a3b8;line-height:1.85}
+.macro-text p{margin-bottom:12px}
+.macro-text strong{color:#e2e8f0}
 
-  /* BADGES */
-  .badge {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 4px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-  }
-  .badge-hawkish { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
-  .badge-dovish  { background: var(--red-dim);   color: var(--red);   border: 1px solid var(--red); }
-  .badge-neutral { background: #1f2937;           color: #9ca3af;      border: 1px solid #374151; }
-  .badge-long    { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
-  .badge-short   { background: var(--red-dim);   color: var(--red);   border: 1px solid var(--red); }
-  .badge-risk-on  { background: #052e16; color: #4ade80; border: 1px solid #22c55e; }
-  .badge-risk-off { background: #450a0a; color: #fca5a5; border: 1px solid #ef4444; }
-  .badge-neutral-risk { background: #1f2937; color: #fbbf24; border: 1px solid #f59e0b; }
-  .badge-usd-strong { background: #1e3a5f; color: var(--cyan); border: 1px solid var(--cyan); }
-  .badge-usd-weak   { background: var(--red-dim); color: var(--red); border: 1px solid var(--red); }
-  .badge-warn { background: #422006; color: #fb923c; border: 1px solid #f97316; font-size: 9px; padding: 1px 6px; }
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:7px 10px;color:#475569;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid #1e2d4a}
+td{padding:7px 10px;border-bottom:1px solid #0d1629;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#ffffff04}
+.pair{font-weight:700;color:#fff;font-family:'Courier New',monospace;font-size:12px}
+.bull{color:#22c55e;font-weight:700}
+.bear{color:#ef4444;font-weight:700}
+.neu{color:#f59e0b;font-weight:700}
+.caution{color:#f59e0b;font-weight:600}
+.level{font-family:'Courier New',monospace;color:#f59e0b;font-size:11px}
+.driver{color:#64748b;font-size:11px}
+.rate{font-family:'Courier New',monospace;color:#fff;font-weight:600}
 
-  /* TOP SUMMARY ROW */
-  .summary-row {
-    display: grid;
-    grid-template-columns: auto auto 1fr 1fr;
-    gap: 12px;
-    align-items: start;
-  }
-  .summary-cell { }
-  .summary-cell-label {
-    font-size: 9px;
-    color: var(--text-muted);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .conviction-list { display: flex; flex-direction: column; gap: 4px; }
-  .conviction-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    font-weight: 600;
-  }
-  .strength-list { display: flex; flex-direction: column; gap: 4px; }
-  .strength-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-  }
-  .rank-num {
-    font-size: 10px;
-    color: var(--text-muted);
-    width: 16px;
-    text-align: right;
-  }
+/* conviction bar */
+.conv-wrap{display:flex;align-items:center;gap:6px}
+.conv-bar{height:4px;border-radius:2px;background:#1e2d4a;width:60px;position:relative}
+.conv-fill{height:100%;border-radius:2px;position:absolute;top:0;left:0}
+.conv-score{font-family:'Courier New',monospace;font-size:10px}
 
-  /* MACRO */
-  .macro-text { font-size: 13px; line-height: 1.8; color: #cbd5e1; }
-  .macro-text p { margin-bottom: 14px; }
-  .macro-text p:last-child { margin-bottom: 0; }
-  .hl { color: var(--cyan); font-weight: 600; }
-  .hl-amber { color: var(--amber); font-weight: 600; }
-  .hl-green { color: var(--green); font-weight: 600; }
-  .hl-red { color: var(--red); font-weight: 600; }
+/* strength grid */
+.strength-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.str-item{background:#111827;border:1px solid #1e2d4a;border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:10px}
+.str-rank{font-size:20px;font-weight:700;color:#334155;min-width:22px;text-align:center}
+.str-ccy{font-size:13px;font-weight:700;color:#fff}
+.str-note{font-size:9px;color:#64748b;margin-top:2px;line-height:1.3}
 
-  /* CENTRAL BANKS */
-  .cb-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 12px;
-  }
-  .cb-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px;
-    position: relative;
-    overflow: hidden;
-  }
-  .cb-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-  }
-  .cb-hawkish::before { background: var(--green); }
-  .cb-dovish::before  { background: var(--red); }
-  .cb-neutral::before { background: var(--gray); }
-  .cb-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-  }
-  .cb-flag-name { display: flex; align-items: center; gap: 8px; }
-  .cb-flag { font-size: 20px; }
-  .cb-ccy { font-size: 15px; font-weight: 700; color: var(--text-primary); }
-  .cb-name { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
-  .cb-rate-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 8px 0;
-    padding: 6px 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .cb-rate-label { font-size: 10px; color: var(--text-muted); }
-  .cb-rate-val { font-size: 16px; font-weight: 700; color: var(--cyan); }
-  .cb-next { font-size: 10px; color: var(--text-muted); margin-bottom: 8px; }
-  .cb-next span { color: var(--amber); }
-  .cb-summary { font-size: 11px; color: #94a3b8; line-height: 1.6; }
+/* calendar */
+.cal-list{display:flex;flex-direction:column;gap:8px}
+.cal-item{background:#111827;border:1px solid #1e2d4a;border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:12px}
+.cal-imp{width:4px;border-radius:2px;flex-shrink:0;align-self:stretch;min-height:30px}
+.cal-imp.high{background:#ef4444}
+.cal-imp.med{background:#f59e0b}
+.cal-imp.low{background:#22c55e}
+.cal-time{font-size:10px;color:#64748b;min-width:55px;font-family:'Courier New',monospace}
+.cal-ccy{font-size:10px;font-weight:700;color:#00d4ff;min-width:32px}
+.cal-desc{font-size:12px;color:#e2e8f0;font-weight:500}
+.cal-sub{font-size:10px;color:#64748b;margin-top:2px}
+.cal-alert{font-size:11px;color:#f59e0b;margin-top:2px;font-style:italic}
 
-  /* COT TABLE */
-  .cot-table { width: 100%; border-collapse: collapse; }
-  .cot-table th {
-    background: #091020;
-    color: var(--cyan);
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 8px 12px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-  }
-  .cot-table td {
-    padding: 10px 12px;
-    border-bottom: 1px solid #121d30;
-    font-size: 12px;
-  }
-  .cot-table tr:hover td { background: #111827; }
-  .arrow-up { color: var(--green); font-size: 14px; }
-  .arrow-down { color: var(--red); font-size: 14px; }
-  .arrow-flat { color: var(--text-muted); font-size: 14px; }
-  .extreme-flag {
-    font-size: 12px;
-    margin-left: 4px;
-    color: var(--amber);
-  }
+/* analyst box */
+.analyst-box{background:#0d1629;border:1px solid #00d4ff22;border-left:3px solid #00d4ff;border-radius:0 8px 8px 0;padding:16px 18px}
+.analyst-label{font-size:9px;color:#00d4ff;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;font-weight:700}
+.analyst-text{font-size:13px;color:#cbd5e1;line-height:1.85}
+.analyst-text p{margin-bottom:12px}
+.analyst-text p:last-child{margin-bottom:0}
+.analyst-text strong{color:#fff}
 
-  /* CALENDAR */
-  .cal-table { width: 100%; border-collapse: collapse; }
-  .cal-table th {
-    background: #091020;
-    color: var(--cyan);
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 8px 12px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-  }
-  .cal-table td {
-    padding: 10px 12px;
-    border-bottom: 1px solid #121d30;
-    font-size: 12px;
-    vertical-align: top;
-  }
-  .cal-table tr:hover td { background: #111827; }
-  .cal-day { color: var(--cyan); font-weight: 700; font-size: 11px; }
-  .cal-time { color: var(--text-muted); font-size: 10px; }
-  .cal-ccy { font-weight: 700; }
-  .cal-ccy-usd { color: #60a5fa; }
-  .cal-ccy-eur { color: #a78bfa; }
-  .cal-ccy-gbp { color: #34d399; }
-  .cal-ccy-jpy { color: #f87171; }
-  .cal-ccy-aud { color: #fbbf24; }
-  .cal-ccy-cad { color: #f97316; }
-  .cal-ccy-nzd { color: #818cf8; }
-  .cal-ccy-chf { color: #e879f9; }
-  .cal-impact-h { color: var(--red); font-weight: 700; font-size: 10px; }
-  .cal-impact-m { color: var(--amber); font-weight: 700; font-size: 10px; }
-  .cal-impact-l { color: var(--gray); font-size: 10px; }
-  .cal-vals { font-size: 11px; color: var(--text-muted); }
-  .cal-vals span { color: var(--text-primary); }
+/* bias badge */
+.badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:700;letter-spacing:.5px}
+.badge-hawk{background:#2d0a0a;color:#ef4444;border:1px solid #ef444433}
+.badge-dove{background:#0a2d0a;color:#22c55e;border:1px solid #22c55e33}
+.badge-neu{background:#2d2000;color:#f59e0b;border:1px solid #f59e0b33}
 
-  /* COMMODITIES */
-  .comm-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-  .comm-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 18px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .comm-icon { font-size: 28px; margin-bottom: 8px; }
-  .comm-name { font-size: 10px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
-  .comm-price { font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
-  .comm-change-pos { font-size: 13px; color: var(--green); font-weight: 600; }
-  .comm-change-neg { font-size: 13px; color: var(--red); font-weight: 600; }
-  .comm-note { font-size: 11px; color: #94a3b8; margin-top: 10px; line-height: 1.5; border-top: 1px solid var(--border); padding-top: 10px; }
+.footer{text-align:center;color:#1e3a5f;font-size:10px;margin-top:30px;padding-top:16px;border-top:1px solid #1e2d4a}
 
-  /* STRENGTH RANKING */
-  .strength-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .strength-row {
-    display: grid;
-    grid-template-columns: 24px 60px 1fr 80px 60px;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-  }
-  .sr-rank { font-size: 12px; color: var(--text-muted); font-weight: 700; text-align: center; }
-  .sr-ccy { font-size: 14px; font-weight: 700; }
-  .sr-bar-wrap { background: #1e2d4a; border-radius: 4px; height: 8px; overflow: hidden; }
-  .sr-bar { height: 100%; border-radius: 4px; transition: width 0.3s; }
-  .sr-score { font-size: 12px; color: var(--text-muted); text-align: right; font-family: monospace; }
-  .sr-chg-pos { font-size: 12px; color: var(--green); text-align: right; font-weight: 600; }
-  .sr-chg-neg { font-size: 12px; color: var(--red); text-align: right; font-weight: 600; }
+/* tabs */
+.tabs{display:flex;gap:0;border-bottom:1px solid #1e2d4a;margin-bottom:16px;overflow-x:auto}
+.tab{padding:8px 16px;font-size:11px;font-weight:600;color:#475569;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;user-select:none}
+.tab:hover{color:#94a3b8}
+.tab.active{color:#00d4ff;border-bottom-color:#00d4ff}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
 
-  /* OUTLIERS TABLE */
-  .outlier-table { width: 100%; border-collapse: collapse; }
-  .outlier-table th {
-    background: #091020;
-    color: var(--cyan);
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 8px 12px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-  }
-  .outlier-table td {
-    padding: 11px 12px;
-    border-bottom: 1px solid #121d30;
-    font-size: 12px;
-    vertical-align: top;
-  }
-  .outlier-table tr:hover td { background: #111827; }
-  .pair-name { font-size: 14px; font-weight: 700; color: var(--text-primary); }
-  .score-val { font-size: 14px; font-weight: 700; }
-  .score-high { color: var(--green); }
-  .score-mid  { color: var(--amber); }
-  .score-low  { color: var(--gray); }
-  .rationale { color: #94a3b8; font-size: 11px; line-height: 1.5; max-width: 380px; }
-  .key-level { color: var(--cyan); font-size: 11px; font-weight: 600; }
-
-  /* CONVICTION MATRIX */
-  .matrix-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 6px;
-  }
-  .matrix-cell {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 8px 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .mc-pair { font-size: 12px; font-weight: 700; color: var(--text-primary); }
-  .mc-bottom { display: flex; align-items: center; justify-content: space-between; }
-  .mc-score-high { font-size: 11px; font-weight: 700; color: var(--green); }
-  .mc-score-mid  { font-size: 11px; font-weight: 700; color: var(--amber); }
-  .mc-score-low  { font-size: 11px; font-weight: 700; color: var(--gray); }
-
-  /* ANALYST NOTE */
-  .analyst-card {
-    background: linear-gradient(135deg, #0f1629 0%, #0a0e1a 100%);
-    border: 1px solid var(--cyan);
-    border-radius: 8px;
-    padding: 20px;
-    position: relative;
-  }
-  .analyst-card::before {
-    content: '// ANALYST NOTE';
-    position: absolute;
-    top: -10px;
-    left: 16px;
-    background: var(--bg-primary);
-    color: var(--cyan);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    padding: 0 8px;
-  }
-  .analyst-text {
-    font-size: 13px;
-    line-height: 1.85;
-    color: #cbd5e1;
-  }
-
-  /* FOOTER */
-  .footer {
-    background: #060b18;
-    border-top: 1px solid var(--border);
-    padding: 16px 20px;
-    text-align: center;
-    font-size: 10px;
-    color: var(--text-muted);
-    letter-spacing: 1px;
-    margin-top: 40px;
-  }
-  .footer-line1 { color: var(--cyan); margin-bottom: 4px; font-weight: 600; }
-  .footer-line2 { color: var(--amber); }
-
-  /* DIVIDERS */
-  .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
-
-  /* RESPONSIVE */
-  @media (max-width: 900px) {
-    .summary-row { grid-template-columns: 1fr 1fr; }
-    .comm-grid { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 600px) {
-    .header-bar { flex-direction: column; align-items: flex-start; }
-    .summary-row { grid-template-columns: 1fr; }
-    .cb-grid { grid-template-columns: 1fr; }
-    .strength-row { grid-template-columns: 24px 50px 1fr 60px 50px; }
-    .matrix-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
-  }
-
-  /* PRINT */
-  @media print {
-    * { background: white !important; color: black !important; border-color: #ccc !important; }
-    .header-bar { position: relative; border-bottom: 2px solid #000; }
-    .header-title { color: black !important; }
-    .hl, .hl-amber, .hl-green, .hl-red { color: black !important; font-weight: bold; }
-    .badge { border: 1px solid #999 !important; color: black !important; }
-    .section-title { color: black !important; border-bottom: 1px solid #ccc; }
-    .section-title::before { background: black !important; }
-    .comm-change-pos, .comm-change-neg, .sr-chg-pos, .sr-chg-neg { color: black !important; }
-    .cal-ccy-usd, .cal-ccy-eur, .cal-ccy-gbp, .cal-ccy-jpy, .cal-ccy-aud, .cal-ccy-cad, .cal-ccy-nzd, .cal-ccy-chf { color: black !important; }
-    .footer { display: none; }
-    .header-disclaimer { background: #eee !important; color: black !important; }
-  }
-
-  /* Scrollable tables on mobile */
-  .table-scroll { overflow-x: auto; }
-
-  /* Subtle glow on cards */
-  .card-glow-cyan { box-shadow: 0 0 0 1px rgba(0,212,255,0.1), 0 4px 16px rgba(0,212,255,0.04); }
-
-  /* Score bars in matrix */
-  .cell-long  { border-left: 3px solid var(--green); }
-  .cell-short { border-left: 3px solid var(--red); }
-  .cell-neut  { border-left: 3px solid var(--gray); }
-
-  /* Pulse dot */
-  .live-dot {
-    display: inline-block;
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--green);
-    margin-right: 6px;
-    animation: pulse 2s infinite;
-    vertical-align: middle;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  .flag-row { display: flex; align-items: center; gap: 6px; }
+@media(max-width:600px){
+  body{padding:12px}
+  .hdr{flex-direction:column;align-items:flex-start}
+  .regime-grid{grid-template-columns:1fr 1fr}
+  .strength-grid{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 <body>
 
-<!-- ════════════════════════════════════════════
-     SECTION 1 · HEADER BAR
-════════════════════════════════════════════ -->
-<div class="header-bar">
-  <div class="header-title">
-    <span class="live-dot"></span>FX/BRIEF 2026-06-22 — TPTraders
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="title">FX/BRIEF 2026-06-24 — TPTraders</div>
+    <div class="sub">Generated Wed, 24 Jun 2026 | Prices as of morning session | Powered by TPTraders Intelligence</div>
   </div>
-  <div class="header-meta">Generated Mon, 22 Jun 2026 &nbsp;|&nbsp; 19:50:01 GMT &nbsp;|&nbsp; Prices as of London Close</div>
-  <div class="header-disclaimer">⚠ NOT FINANCIAL ADVICE</div>
+  <a class="hub-link" href="https://cbell0920.github.io/tptraders-hub">← Hub</a>
 </div>
 
-<div class="container">
+<div class="warn">⚠ NOT FINANCIAL ADVICE — For research and educational purposes only. All content is informational.</div>
 
-<!-- ════════════════════════════════════════════
-     SECTION 2 · TOP SUMMARY ROW
-════════════════════════════════════════════ -->
-<div class="section" style="margin-top:16px;">
-  <div class="summary-row">
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('overview')">Overview</div>
+  <div class="tab" onclick="switchTab('pairs')">Pairs & Levels</div>
+  <div class="tab" onclick="switchTab('cb')">Central Banks</div>
+  <div class="tab" onclick="switchTab('cot')">COT</div>
+  <div class="tab" onclick="switchTab('macro')">Macro</div>
+  <div class="tab" onclick="switchTab('calendar')">Calendar</div>
+  <div class="tab" onclick="switchTab('analyst')">Analyst Note</div>
+</div>
 
-    <!-- Risk Regime -->
-    <div class="card" style="min-width:160px;">
-      <div class="summary-cell-label">Risk Regime</div>
-      <div class="badge badge-neutral-risk" style="font-size:13px; padding:6px 14px;">⚡ MIXED</div>
-      <div style="font-size:10px; color:var(--text-muted); margin-top:8px;">Oil -4.9% · Gold +0.8%<br>GBP shock · Iran deal progress</div>
-    </div>
+<!-- OVERVIEW TAB -->
+<div class="tab-panel active" id="tab-overview">
 
-    <!-- USD Bias -->
-    <div class="card" style="min-width:160px;">
-      <div class="summary-cell-label">USD Bias</div>
-      <div class="badge badge-usd-strong" style="font-size:13px; padding:6px 14px;">↑ BULLISH</div>
-      <div style="font-size:10px; color:var(--text-muted); margin-top:8px;">Warsh hawkish tilt<br>9/19 policymakers eye hike</div>
-    </div>
-
-    <!-- Top 3 Conviction Pairs -->
-    <div class="card">
-      <div class="summary-cell-label">Top Conviction Pairs</div>
-      <div class="conviction-list">
-        <div class="conviction-item">
-          <span class="badge badge-short">SHORT</span>
-          <span style="color:var(--red); font-size:14px; font-weight:700;">GBP/USD</span>
-          <span style="color:var(--text-muted); font-size:11px;">88 · Starmer resign + dovish BoE</span>
-        </div>
-        <div class="conviction-item">
-          <span class="badge badge-long">LONG</span>
-          <span style="color:var(--green); font-size:14px; font-weight:700;">USD/JPY</span>
-          <span style="color:var(--text-muted); font-size:11px;">85 · Rate diff, JPY under pressure</span>
-        </div>
-        <div class="conviction-item">
-          <span class="badge badge-short">SHORT</span>
-          <span style="color:var(--red); font-size:14px; font-weight:700;">EUR/GBP</span>
-          <span style="color:var(--text-muted); font-size:11px;">82 · ECB hike vs UK chaos</span>
-        </div>
+  <div class="section">
+    <div class="section-title">Market Regime</div>
+    <div class="regime-grid">
+      <div class="regime-card">
+        <div class="rc-label">Risk Regime</div>
+        <div class="rc-value" style="color:#f59e0b">⚡ MIXED</div>
+        <div class="rc-sub">USD strength vs easing geopolitical risk</div>
+      </div>
+      <div class="regime-card">
+        <div class="rc-label">USD Bias</div>
+        <div class="rc-value" style="color:#22c55e">↑ BULLISH</div>
+        <div class="rc-sub">Warsh hawkish hold · DXY above 100</div>
+      </div>
+      <div class="regime-card">
+        <div class="rc-label">DXY</div>
+        <div class="rc-value">~100+</div>
+        <div class="rc-sub">Broke above 100 post-FOMC June 17</div>
+      </div>
+      <div class="regime-card">
+        <div class="rc-label">Gold (XAU)</div>
+        <div class="rc-value" style="color:#ef4444">~$4,050</div>
+        <div class="rc-sub">Near 2-week low · USD headwind</div>
       </div>
     </div>
+  </div>
 
-    <!-- Strongest Currencies -->
-    <div class="card">
-      <div class="summary-cell-label">Strongest Today</div>
-      <div class="strength-list">
-        <div class="strength-item">
-          <span class="rank-num">#1</span>
-          <span style="font-size:14px; font-weight:700; color:var(--green);">🇨🇭 CHF</span>
-          <span style="color:var(--text-muted); font-size:11px;">Safe haven, SNB 0.00%</span>
-        </div>
-        <div class="strength-item">
-          <span class="rank-num">#2</span>
-          <span style="font-size:14px; font-weight:700; color:var(--green);">🇺🇸 USD</span>
-          <span style="color:var(--text-muted); font-size:11px;">Hawkish Warsh shift</span>
-        </div>
-        <div class="strength-item">
-          <span class="rank-num">#3</span>
-          <span style="font-size:14px; font-weight:700; color:var(--green);">🇪🇺 EUR</span>
-          <span style="color:var(--text-muted); font-size:11px;">ECB just hiked 25bp</span>
-        </div>
+  <div class="section">
+    <div class="section-title">Currency Strength Ranking</div>
+    <div class="strength-grid">
+      <div class="str-item">
+        <div class="str-rank" style="color:#22c55e">1</div>
+        <div><div class="str-ccy">🇺🇸 USD</div><div class="str-note">Hawkish Fed · DXY 100+ · safe haven</div></div>
+      </div>
+      <div class="str-item">
+        <div class="str-rank" style="color:#4ade80">2</div>
+        <div><div class="str-ccy">🇨🇭 CHF</div><div class="str-note">SNB near-zero but safe haven demand</div></div>
+      </div>
+      <div class="str-item">
+        <div class="str-rank" style="color:#86efac">3</div>
+        <div><div class="str-ccy">🇪🇺 EUR</div><div class="str-note">ECB hiked to 2.25% — limits downside</div></div>
+      </div>
+      <div class="str-item">
+        <div class="str-rank" style="color:#94a3b8">4</div>
+        <div><div class="str-ccy">🇬🇧 GBP</div><div class="str-note">BoE cautious hold · political risk</div></div>
+      </div>
+      <div class="str-item">
+        <div class="str-rank" style="color:#94a3b8">5</div>
+        <div><div class="str-ccy">🇦🇺 AUD</div><div class="str-note">Stretched longs · USD headwind</div></div>
+      </div>
+      <div class="str-item">
+        <div class="str-rank" style="color:#fca5a5">6</div>
+        <div><div class="str-ccy">🇯🇵 JPY</div><div class="str-note">Rate diff killing yen · MoF only brake</div></div>
+      </div>
+      <div class="str-item">
+        <div class="str-rank" style="color:#f87171">7</div>
+        <div><div class="str-ccy">🇨🇦 CAD</div><div class="str-note">Weakest G10 fundamentals · USD/CAD up</div></div>
+      </div>
+      <div class="str-item">
+        <div class="str-rank" style="color:#ef4444">8</div>
+        <div><div class="str-ccy">🇳🇿 NZD</div><div class="str-note">RBNZ dovish · COT net-short building</div></div>
       </div>
     </div>
+  </div>
 
+  <div class="section">
+    <div class="section-title">Top Conviction Pairs</div>
+    <table>
+      <thead><tr><th>Pair</th><th>Bias</th><th>Conviction</th><th>Key Driver</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="pair">EUR/USD</td>
+          <td><span class="bear">BEARISH</span></td>
+          <td><div class="conv-wrap"><div class="conv-bar"><div class="conv-fill" style="width:85%;background:#ef4444"></div></div><span class="conv-score" style="color:#ef4444">85</span></div></td>
+          <td class="driver">Fed hawkish + weak eurozone PMI (49.5)</td>
+        </tr>
+        <tr>
+          <td class="pair">USD/JPY</td>
+          <td><span class="bull">BULLISH</span></td>
+          <td><div class="conv-wrap"><div class="conv-bar"><div class="conv-fill" style="width:80%;background:#22c55e"></div></div><span class="conv-score" style="color:#22c55e">80</span></div></td>
+          <td class="driver">Rate differential · caution re: MoF at 161+</td>
+        </tr>
+        <tr>
+          <td class="pair">USD/CAD</td>
+          <td><span class="bull">BULLISH</span></td>
+          <td><div class="conv-wrap"><div class="conv-bar"><div class="conv-fill" style="width:80%;background:#22c55e"></div></div><span class="conv-score" style="color:#22c55e">80</span></div></td>
+          <td class="driver">CAD weakest G10 · spec longs vulnerable to unwind</td>
+        </tr>
+        <tr>
+          <td class="pair">GBP/USD</td>
+          <td><span class="bear">BEARISH</span></td>
+          <td><div class="conv-wrap"><div class="conv-bar"><div class="conv-fill" style="width:75%;background:#ef4444"></div></div><span class="conv-score" style="color:#ef4444">75</span></div></td>
+          <td class="driver">BoE cautious · UK political instability · USD bid</td>
+        </tr>
+        <tr>
+          <td class="pair">EUR/GBP</td>
+          <td><span class="bull">BULLISH</span></td>
+          <td><div class="conv-wrap"><div class="conv-bar"><div class="conv-fill" style="width:72%;background:#22c55e"></div></div><span class="conv-score" style="color:#22c55e">72</span></div></td>
+          <td class="driver">ECB hiking vs BoE holding · rate gap 150bp</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- PAIRS TAB -->
+<div class="tab-panel" id="tab-pairs">
+  <div class="section">
+    <div class="section-title">All Major Pairs — Levels & Bias</div>
+    <table>
+      <thead><tr><th>Pair</th><th>Price</th><th>Bias</th><th>Support</th><th>Resistance</th><th>Driver</th></tr></thead>
+      <tbody>
+        <tr><td class="pair">EUR/USD</td><td class="level">1.1375</td><td><span class="bear">BEARISH</span></td><td class="level">1.1300</td><td class="level">1.1500</td><td class="driver">Fed hawkish hold + weak eurozone PMI 49.5</td></tr>
+        <tr><td class="pair">GBP/USD</td><td class="level">1.3200</td><td><span class="bear">BEARISH</span></td><td class="level">1.3100</td><td class="level">1.3300</td><td class="driver">BoE cautious, UK political chaos, USD bid</td></tr>
+        <tr><td class="pair">USD/JPY</td><td class="level">161.57</td><td><span class="bull">BULLISH*</span></td><td class="level">160.00</td><td class="level">163.00</td><td class="driver">Rate diff supportive but MoF intervention risk at 161+</td></tr>
+        <tr><td class="pair">USD/CHF</td><td class="level">0.8085</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.8000</td><td class="level">0.8200</td><td class="driver">USD strength vs CHF safe haven — range-bound</td></tr>
+        <tr><td class="pair">AUD/USD</td><td class="level">0.7010</td><td><span class="bear">BEARISH</span></td><td class="level">0.6950</td><td class="level">0.7100</td><td class="driver">COT longs at extreme — unwind risk + USD headwind</td></tr>
+        <tr><td class="pair">NZD/USD</td><td class="level">0.5730</td><td><span class="bear">BEARISH</span></td><td class="level">0.5650</td><td class="level">0.5800</td><td class="driver">RBNZ dovish, COT net-short building</td></tr>
+        <tr><td class="pair">USD/CAD</td><td class="level">1.4152</td><td><span class="bull">BULLISH</span></td><td class="level">1.3900</td><td class="level">1.4300</td><td class="driver">CAD weakest G10, deteriorating fundamentals</td></tr>
+        <tr><td class="pair">EUR/GBP</td><td class="level">0.8621</td><td><span class="bull">BULLISH</span></td><td class="level">0.8550</td><td class="level">0.8700</td><td class="driver">ECB hiking vs BoE holding — rate gap narrowing to 150bp</td></tr>
+        <tr><td class="pair">EUR/JPY</td><td class="level">183.86</td><td><span class="bull">BULLISH</span></td><td class="level">182.00</td><td class="level">186.00</td><td class="driver">ECB hawkish + JPY structural weakness</td></tr>
+        <tr><td class="pair">EUR/CHF</td><td class="level">0.9213</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.9100</td><td class="level">0.9350</td><td class="driver">Both safe haven demand vs rate dynamics</td></tr>
+        <tr><td class="pair">EUR/AUD</td><td class="level">1.6453</td><td><span class="bull">BULLISH</span></td><td class="level">1.6200</td><td class="level">1.6700</td><td class="driver">ECB hike supportive, AUD longs stretched</td></tr>
+        <tr><td class="pair">EUR/NZD</td><td class="level">2.0076</td><td><span class="bull">BULLISH</span></td><td class="level">1.9800</td><td class="level">2.0300</td><td class="driver">RBNZ dovish vs ECB hiking</td></tr>
+        <tr><td class="pair">EUR/CAD</td><td class="level">1.6100</td><td><span class="neu">NEUTRAL</span></td><td class="level">1.5900</td><td class="level">1.6300</td><td class="driver">Both currencies under different pressures</td></tr>
+        <tr><td class="pair">GBP/JPY</td><td class="level">212.80</td><td><span class="neu">NEUTRAL</span></td><td class="level">210.00</td><td class="level">215.00</td><td class="driver">Both currencies pressured by USD bid</td></tr>
+        <tr><td class="pair">GBP/CHF</td><td class="level">1.0676</td><td><span class="bear">BEARISH</span></td><td class="level">1.0500</td><td class="level">1.0850</td><td class="driver">GBP political risk vs CHF safe haven</td></tr>
+        <tr><td class="pair">GBP/AUD</td><td class="level">1.8823</td><td><span class="neu">NEUTRAL</span></td><td class="level">1.8600</td><td class="level">1.9100</td><td class="driver">Both under broad USD pressure</td></tr>
+        <tr><td class="pair">GBP/NZD</td><td class="level">2.3024</td><td><span class="bull">BULLISH</span></td><td class="level">2.2700</td><td class="level">2.3400</td><td class="driver">NZD weakest of the two</td></tr>
+        <tr><td class="pair">GBP/CAD</td><td class="level">1.8622</td><td><span class="neu">NEUTRAL</span></td><td class="level">1.8400</td><td class="level">1.8900</td><td class="driver">Mixed — CAD fundamental weakness vs GBP political risk</td></tr>
+        <tr><td class="pair">AUD/JPY</td><td class="level">113.24</td><td><span class="bull">BULLISH</span></td><td class="level">111.00</td><td class="level">115.00</td><td class="driver">JPY structural weakness dominant</td></tr>
+        <tr><td class="pair">AUD/CHF</td><td class="level">0.5668</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.5600</td><td class="level">0.5750</td><td class="driver">AUD stretched longs vs CHF safe haven</td></tr>
+        <tr><td class="pair">AUD/NZD</td><td class="level">1.2237</td><td><span class="bull">BULLISH</span></td><td class="level">1.2100</td><td class="level">1.2400</td><td class="driver">RBA less dovish than RBNZ</td></tr>
+        <tr><td class="pair">AUD/CAD</td><td class="level">0.9918</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.9800</td><td class="level">1.0050</td><td class="driver">Commodity currency pair — range-bound</td></tr>
+        <tr><td class="pair">NZD/JPY</td><td class="level">92.55</td><td><span class="bull">BULLISH</span></td><td class="level">91.00</td><td class="level">94.00</td><td class="driver">JPY weakness dominant over NZD dovish</td></tr>
+        <tr><td class="pair">NZD/CHF</td><td class="level">0.4634</td><td><span class="bear">BEARISH</span></td><td class="level">0.4550</td><td class="level">0.4720</td><td class="driver">NZD bearish vs CHF safe haven bid</td></tr>
+        <tr><td class="pair">NZD/CAD</td><td class="level">0.8107</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.8000</td><td class="level">0.8250</td><td class="driver">Both weak — no strong directional edge</td></tr>
+        <tr><td class="pair">CAD/JPY</td><td class="level">114.13</td><td><span class="bull">BULLISH</span></td><td class="level">112.50</td><td class="level">116.00</td><td class="driver">JPY weakness dominant</td></tr>
+        <tr><td class="pair">CAD/CHF</td><td class="level">0.5715</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.5650</td><td class="level">0.5800</td><td class="driver">CAD fundamental weakness vs CHF safe haven</td></tr>
+        <tr><td class="pair">CHF/JPY</td><td class="level">199.72</td><td><span class="bull">BULLISH</span></td><td class="level">197.00</td><td class="level">202.00</td><td class="driver">Safe haven CHF vs structurally weak JPY</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:8px;font-size:10px;color:#475569">* USD/JPY bullish bias but size conservatively — MoF intervention risk elevated above 161.00</div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════
-     SECTION 3 · MACRO ENVIRONMENT
-════════════════════════════════════════════ -->
-<div class="section">
-  <div class="section-title">Macro Environment</div>
-  <div class="card card-glow-cyan">
+<!-- CENTRAL BANKS TAB -->
+<div class="tab-panel" id="tab-cb">
+  <div class="section">
+    <div class="section-title">Central Bank Rates & Stances</div>
+    <table>
+      <thead><tr><th>Central Bank</th><th>Rate</th><th>Bias</th><th>Last Decision</th><th>Next Meeting</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;color:#fff">Federal Reserve</td>
+          <td class="rate">3.50–3.75%</td>
+          <td><span class="badge badge-hawk">HAWKISH</span></td>
+          <td style="font-size:11px;color:#64748b">Hold · Jun 17 · 12-0</td>
+          <td style="font-size:11px;color:#64748b">Jul 29</td>
+          <td class="driver">Warsh dot plot moved median to 3.8%. US CPI 4.2%. October hike being priced. PCE today is key.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#fff">ECB</td>
+          <td class="rate">2.25%</td>
+          <td><span class="badge badge-hawk">HAWKISH</span></td>
+          <td style="font-size:11px;color:#64748b">+25bp hike · Jun 11</td>
+          <td style="font-size:11px;color:#64748b">Jul 23</td>
+          <td class="driver">First hike since 2023. Eurozone CPI 3.2%. ~50% chance of Sep hike. But PMI &lt;50 limits pace.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#fff">Bank of England</td>
+          <td class="rate">3.75%</td>
+          <td><span class="badge badge-neu">CAUTIOUS</span></td>
+          <td style="font-size:11px;color:#64748b">Hold · Jun 18 · 7-2</td>
+          <td style="font-size:11px;color:#64748b">Jul 30</td>
+          <td class="driver">2 MPC members voted hike. UK CPI 2.8%, services CPI 3.6%. Political uncertainty a wildcard.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#fff">Bank of Japan</td>
+          <td class="rate">0.75%</td>
+          <td><span class="badge badge-neu">HAWKISH TILT</span></td>
+          <td style="font-size:11px;color:#64748b">Hawkish hold</td>
+          <td style="font-size:11px;color:#64748b">Jul</td>
+          <td class="driver">BoJ normalising slowly. MoF warning vs yen weakness at 161+. Intervention risk elevated.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#fff">RBA</td>
+          <td class="rate">~4.10%</td>
+          <td><span class="badge badge-neu">NEUTRAL</span></td>
+          <td style="font-size:11px;color:#64748b">Mildly hawkish hold</td>
+          <td style="font-size:11px;color:#64748b">Aug</td>
+          <td class="driver">Watching inflation. AUD positioning extreme — more relevant driver than RBA right now.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#fff">RBNZ</td>
+          <td class="rate">~3.25%</td>
+          <td><span class="badge badge-dove">DOVISH</span></td>
+          <td style="font-size:11px;color:#64748b">Cutting</td>
+          <td style="font-size:11px;color:#64748b">Jul</td>
+          <td class="driver">Cutting cycle. NZD structural headwind. COT shorts building.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#fff">Bank of Canada</td>
+          <td class="rate">~2.75%</td>
+          <td><span class="badge badge-neu">NEUTRAL</span></td>
+          <td style="font-size:11px;color:#64748b">Hold</td>
+          <td style="font-size:11px;color:#64748b">Jul</td>
+          <td class="driver">Wants to cut but constrained. CAD weakest G10 fundamentally.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#fff">SNB</td>
+          <td class="rate">0.00%</td>
+          <td><span class="badge badge-neu">NEUTRAL</span></td>
+          <td style="font-size:11px;color:#64748b">Hold</td>
+          <td style="font-size:11px;color:#64748b">Sep</td>
+          <td class="driver">Near-zero rate. CHF strength driven by safe haven demand, not policy. SNB will intervene if CHF too strong.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- COT TAB -->
+<div class="tab-panel" id="tab-cot">
+  <div class="section">
+    <div class="section-title">COT Positioning — Non-Commercial (CFTC, latest)</div>
+    <table>
+      <thead><tr><th>Currency</th><th>Positioning</th><th>Trend</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700;color:#fff">🇺🇸 USD</td>
+          <td><span class="neu">NET-SHORT REDUCING</span></td>
+          <td style="color:#22c55e;font-size:11px">▲ Improving</td>
+          <td class="driver">Net-short was -$22.8B, now reduced to ~-$13.1B. Most aggressive 3-week culling since Nov 2024. USD bears retreating.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:#fff">🇪🇺 EUR</td>
+          <td><span class="bull">NET-LONG</span></td>
+          <td style="color:#ef4444;font-size:11px">▼ Fading</td>
+          <td class="driver">Large specs near 18-month high but trimming as USD bid returns. Asset managers flipping against EUR longs.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:#fff">🇬🇧 GBP</td>
+          <td><span class="neu">MIXED</span></td>
+          <td style="color:#f59e0b;font-size:11px">→ Diverging</td>
+          <td class="driver">Large specs net-long ~33k contracts. Asset managers net-short ~13k. Divergence = fragile positioning.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:#fff">🇯🇵 JPY</td>
+          <td><span class="bear">NET-SHORT (growing)</span></td>
+          <td style="color:#ef4444;font-size:11px">▼ Deteriorating</td>
+          <td class="driver">Large specs flipped net-short. Gross shorts rising at fastest pace since Nov 2024 — 3rd consecutive weekly increase. MoF watching.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:#fff">🇦🇺 AUD</td>
+          <td><span class="bull">NET-LONG (extreme)</span></td>
+          <td style="color:#f59e0b;font-size:11px">⚠ Stretched</td>
+          <td class="driver">Pushed to multi-year extremes after US strike on Iran. Sentiment extreme risk — reversal candidate. Watch for unwind trigger.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:#fff">🇳🇿 NZD</td>
+          <td><span class="bear">NET-SHORT</span></td>
+          <td style="color:#ef4444;font-size:11px">▼ Building</td>
+          <td class="driver">Asset managers at 6-week high net-short. NZD/USD downside bias confirmed by positioning.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:#fff">🇨🇦 CAD</td>
+          <td><span class="bull">NET-LONG (specs)</span></td>
+          <td style="color:#f59e0b;font-size:11px">⚠ Diverges from fundamentals</td>
+          <td class="driver">Large specs most bullish CAD since Sep 2022 — but macro is bearish CAD. Risk of violent unwind if USD/CAD breaks 1.42.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:#fff">🇨🇭 CHF</td>
+          <td><span class="neu">NET-SHORT REDUCING</span></td>
+          <td style="color:#22c55e;font-size:11px">▲ Improving</td>
+          <td class="driver">Safe haven demand absorbing CHF shorts. Gross shorts fell 37% among large specs recently.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- MACRO TAB -->
+<div class="tab-panel" id="tab-macro">
+  <div class="section">
+    <div class="section-title">Macro Environment</div>
     <div class="macro-text">
-      <p>
-        The dominant macro theme entering the week of June 22 is a <span class="hl">dual geopolitical de-escalation</span> shock: the US and Iran have agreed on a 60-day roadmap toward a final peace deal, with mediators Qatar and Pakistan brokering a monitoring mechanism. This has <span class="hl-red">crushed WTI crude by over 4.9% today to ~$73.50/bbl</span>, erasing much of the Hormuz-crisis premium that had driven global inflation metrics sharply higher through Q1–Q2. The easing of energy prices provides a temporary disinflationary tailwind, but markets are rightly cautious: the deal remains fragile, and headline CPI/PCE data already baked in months of elevated energy costs. <span class="hl-amber">Gold has caught a bid near $4,200 despite the risk-on tilt</span>, signalling that deep structural uncertainty — particularly around US Fed policy under Chairman Warsh — remains unresolved.
-      </p>
-      <p>
-        The Federal Reserve's June 16–17 FOMC meeting under <span class="hl">new Chair Kevin Warsh</span> delivered a hold at 3.50–3.75%, but the policy statement overhaul was seismic: the prior cutting bias was removed, forward guidance scrapped, and the dot plot now shows 9 of 19 policymakers projecting at least one hike in 2026. Markets are pricing a September hike at growing odds. US PCE (the Fed's preferred inflation gauge) lands <span class="hl-amber">Thursday 26 June</span>, with Wells Fargo forecasting +0.5% m/m (headline) and +0.3% m/m (core) — if confirmed, this will reinforce hike bets and support the dollar broadly. The USD is thus structurally bid on any PCE upside surprise, while a soft print could trigger sharp reversal across USD crosses.
-      </p>
-      <p>
-        In the UK, a political earthquake struck this morning:
+      <p>The dominant post-super-week macro theme is a <strong>hawkish repricing of the Federal Reserve</strong> under new Chair Kevin Warsh. The June 17 FOMC held rates at <strong>3.50–3.75%</strong> in a unanimous 12-0 vote, but the dot plot was a hawkish shock — the median year-end projection rose to 3.8% (from 3.4% in March). With US CPI at <strong>4.2%</strong>, markets are now pricing a possible hike by October. The Dollar Index broke above 100 and has held there. This is the key structural driver across all USD pairs: the cutting cycle the market priced through early 2026 is now off the table, and the next move is more likely up than down.</p>
+      <p>The <strong>ECB raised its deposit facility rate to 2.25%</strong> on June 11 — its first hike since 2023 — in response to eurozone CPI at 3.2% in May with core at 2.5%. This limits EUR downside against GBP and JPY, but the ECB is fighting against a growth slowdown: the June composite PMI came in at 49.5, below 50 for a third consecutive month. The hawkish policy backdrop cannot fully offset the recessionary PMI signal, which is why EUR/USD remains under pressure from the stronger USD despite the ECB hike.</p>
+      <p>In the UK, the <strong>Bank of England held at 3.75%</strong> in a 7-2 vote on June 18. Two MPC members voted for a hike — UK services CPI at 3.6% is the culprit. Political uncertainty continues to weigh on GBP independently of the monetary policy picture. The BoE-ECB rate gap has narrowed to 150bp after the ECB hike, trimming GBP/EUR's structural support.</p>
+      <p>The <strong>Iran deal progress</strong> from last week has provided a disinflationary tailwind via lower oil prices, but markets are cautiously treating it as fragile. Gold has pulled back to ~$4,050 — a two-week low — as the USD strengthens and safe haven demand softens at the margins. The commodity complex remains a secondary rather than primary driver this week.</p>
+      <p><strong>Today's PCE print is the single most important catalyst of the week.</strong> Wells Fargo is forecasting +0.5% headline m/m and +0.3% core m/m. A hot print confirms the October hike narrative and extends USD strength across all major pairs. A soft miss triggers a sharp reversal — expect 50–80 pip moves on EUR/USD and GBP/USD on the number.</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Commodity Correlations</div>
+    <div class="regime-grid">
+      <div class="regime-card">
+        <div class="rc-label">WTI Crude</div>
+        <div class="rc-value" style="color:#22c55e">~$73.50</div>
+        <div class="rc-sub">Iran deal eased Hormuz premium · CAD/NOK positive</div>
+      </div>
+      <div class="regime-card">
+        <div class="rc-label">Gold (XAU)</div>
+        <div class="rc-value" style="color:#ef4444">~$4,050</div>
+        <div class="rc-sub">Near 2-week low · USD headwind · CHF/JPY safe haven alternative</div>
+      </div>
+      <div class="regime-card">
+        <div class="rc-label">Copper</div>
+        <div class="rc-value">Soft</div>
+        <div class="rc-sub">Weak China demand signal · AUD/NZD negative</div>
+      </div>
+      <div class="regime-card">
+        <div class="rc-label">DXY</div>
+        <div class="rc-value" style="color:#22c55e">100+</div>
+        <div class="rc-sub">Above psychological level · broad USD strength confirmed</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CALENDAR TAB -->
+<div class="tab-panel" id="tab-calendar">
+  <div class="section">
+    <div class="section-title">Economic Calendar — Next 48 Hours</div>
+    <div class="cal-list">
+
+      <div class="cal-item">
+        <div class="cal-imp high"></div>
+        <div class="cal-time">08:30 ET<br>Today</div>
+        <div class="cal-ccy">USD</div>
+        <div>
+          <div class="cal-desc">PCE Price Index (May) — Headline m/m</div>
+          <div class="cal-sub">Forecast: +0.5% m/m · Previous: +0.3% m/m</div>
+          <div class="cal-alert">⚠ Most important print of the week — determines October hike pricing</div>
+        </div>
+      </div>
+
+      <div class="cal-item">
+        <div class="cal-imp high"></div>
+        <div class="cal-time">08:30 ET<br>Today</div>
+        <div class="cal-ccy">USD</div>
+        <div>
+          <div class="cal-desc">Core PCE Price Index (May) — m/m</div>
+          <div class="cal-sub">Forecast: +0.3% m/m · Fed's preferred inflation gauge</div>
+          <div class="cal-alert">⚠ Hot = USD longs. Miss = take profits and wait</div>
+        </div>
+      </div>
+
+      <div class="cal-item">
+        <div class="cal-imp med"></div>
+        <div class="cal-time">08:30 ET<br>Today</div>
+        <div class="cal-ccy">USD</div>
+        <div>
+          <div class="cal-desc">Initial Jobless Claims</div>
+          <div class="cal-sub">Labour market health check — secondary to PCE today</div>
+        </div>
+      </div>
+
+      <div class="cal-item">
+        <div class="cal-imp med"></div>
+        <div class="cal-time">All day<br>Today</div>
+        <div class="cal-ccy">EUR</div>
+        <div>
+          <div class="cal-desc">ECB Speaker Circuit</div>
+          <div class="cal-sub">Watch for any September hike signals post-June decision</div>
+        </div>
+      </div>
+
+      <div class="cal-item">
+        <div class="cal-imp med"></div>
+        <div class="cal-time">08:30 ET<br>Thu Jun 25</div>
+        <div class="cal-ccy">USD</div>
+        <div>
+          <div class="cal-desc">GDP Final — Q1 2026</div>
+          <div class="cal-sub">Backward-looking but confirms growth trajectory</div>
+        </div>
+      </div>
+
+      <div class="cal-item">
+        <div class="cal-imp low"></div>
+        <div class="cal-time">10:00 ET<br>Fri Jun 26</div>
+        <div class="cal-ccy">USD</div>
+        <div>
+          <div class="cal-desc">U of Michigan Consumer Sentiment — Final</div>
+          <div class="cal-sub">Low impact unless major revision from prelim</div>
+        </div>
+      </div>
+
+      <div class="cal-item">
+        <div class="cal-imp med"></div>
+        <div class="cal-time">All week</div>
+        <div class="cal-ccy">GBP</div>
+        <div>
+          <div class="cal-desc">UK Political Developments</div>
+          <div class="cal-sub">Watch for any Starmer government news — elevated risk of GBP gap moves</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ANALYST NOTE TAB -->
+<div class="tab-panel" id="tab-analyst">
+  <div class="section">
+    <div class="section-title">Senior Analyst Note</div>
+    <div class="analyst-box">
+      <div class="analyst-label">TPTraders Senior FX Analyst — June 24, 2026</div>
+      <div class="analyst-text">
+        <p>The dominant trade setup this week is <strong>short EUR/USD on any bounce toward 1.1450–1.1500</strong>. The ECB's hike to 2.25% should theoretically support the euro — and it does relative to GBP and JPY — but against the USD it's the weaker force. Three consecutive months of composite PMI below 50 tells you the eurozone economy is struggling to absorb the tightening. The Fed's hawkish dot plot under Warsh is the dominant narrative. The 1.1500 level is both structural resistance and the line in the sand for USD bears; if it caps, the path toward 1.1300 and ultimately 1.1150 opens up over the next 2–4 weeks.</p>
+        <p><strong>USD/JPY is high conviction but high risk.</strong> The fundamental case — 275bp rate differential, BoJ still normalising slowly at 0.75% — argues for 163+. But the MoF is not bluffing at these levels. The last intervention came swiftly and without warning. Preferred approach: stay long USD/JPY but size conservatively — no more than 50% of normal size — and keep stops tight below 160.50. A breach of 163.00 on heavy volume opens 165. An MoF intervention drops the pair 200–300 pips in minutes.</p>
+        <p><strong>USD/CAD is the cleanest long.</strong> Spec positioning is extremely long CAD, yet the macro picture is unambiguously bearish CAD — deteriorating real growth, the BoC wanting to cut but unable to, and USD dominance across the board. When spec longs get caught offside in a USD-bullish move, the unwind is fast and violent. USD/CAD above 1.4200 on a daily close confirms the break. Target 1.4400–1.4500 on a hot PCE print today.</p>
+        <p><strong>PCE at 08:30 ET today determines the next leg.</strong> Hot (+0.5% headline / +0.3% core): add USD longs across the board, fade EUR and AUD bounces, stay with USD/CAD and USD/JPY positions. Soft miss: take profits, wait for re-entry — don't fight the reversal, the move can be sharp. The week's positioning bias is clear; today's data either accelerates it or gives you a better entry.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">FX Morning Brief · TPTraders Intelligence Hub · 2026-06-24 · NOT FINANCIAL ADVICE<br>
+<a href="https://cbell0920.github.io/tptraders-hub" style="color:#1e3a5f">← TPTraders Hub</a>
+</div>
+
+<script>
+function switchTab(name){
+  const names=['overview','pairs','cb','cot','macro','calendar','analyst'];
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',names[i]===name));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+}
+</script>
+</body>
+</html>
