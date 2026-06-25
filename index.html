@@ -2,122 +2,83 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FX Morning Brief — 2026-06-24 — TPTraders</title>
+<title>FX Morning Brief — 2026-06-25 — TPTraders</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0a0e1a;color:#e2e8f0;font-family:'Inter',system-ui,sans-serif;padding:20px;line-height:1.6}
-a{color:#00d4ff;text-decoration:none}
-a:hover{text-decoration:underline}
-
+a{color:#00d4ff;text-decoration:none}a:hover{text-decoration:underline}
 .hdr{background:#0d1221;border:1px solid #1e2d4a;border-radius:12px;padding:16px 22px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.hdr-left .title{font-size:20px;font-weight:700;color:#fff;letter-spacing:.3px}
-.hdr-left .sub{font-size:12px;color:#64748b;margin-top:3px}
+.title{font-size:20px;font-weight:700;color:#fff;letter-spacing:.3px}
+.sub{font-size:12px;color:#64748b;margin-top:3px}
 .hub-link{color:#00d4ff;font-size:12px;font-weight:600;border:1px solid #00d4ff33;padding:5px 12px;border-radius:6px}
 .hub-link:hover{background:#00d4ff14;text-decoration:none}
-
 .warn{background:#0f1a14;border:1px solid #22c55e33;border-radius:8px;padding:8px 16px;font-size:11px;color:#4ade80;margin-bottom:18px}
-
 .section{margin-bottom:26px}
 .section-title{font-size:10px;font-weight:700;color:#00d4ff;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #1e2d4a}
-
-/* regime cards */
 .regime-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
 .regime-card{background:#111827;border:1px solid #1e2d4a;border-radius:8px;padding:12px;text-align:center}
 .rc-label{font-size:9px;color:#64748b;text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
 .rc-value{font-size:15px;font-weight:700;color:#fff}
 .rc-sub{font-size:10px;color:#64748b;margin-top:4px;line-height:1.4}
-
-/* macro text */
 .macro-text{font-size:13px;color:#94a3b8;line-height:1.85}
 .macro-text p{margin-bottom:12px}
 .macro-text strong{color:#e2e8f0}
-
-/* tables */
 table{width:100%;border-collapse:collapse;font-size:12px}
 th{text-align:left;padding:7px 10px;color:#475569;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid #1e2d4a}
 td{padding:7px 10px;border-bottom:1px solid #0d1629;vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#ffffff04}
 .pair{font-weight:700;color:#fff;font-family:'Courier New',monospace;font-size:12px}
-.bull{color:#22c55e;font-weight:700}
-.bear{color:#ef4444;font-weight:700}
-.neu{color:#f59e0b;font-weight:700}
-.caution{color:#f59e0b;font-weight:600}
+.bull{color:#22c55e;font-weight:700}.bear{color:#ef4444;font-weight:700}.neu{color:#f59e0b;font-weight:700}
 .level{font-family:'Courier New',monospace;color:#f59e0b;font-size:11px}
 .driver{color:#64748b;font-size:11px}
 .rate{font-family:'Courier New',monospace;color:#fff;font-weight:600}
-
-/* conviction bar */
 .conv-wrap{display:flex;align-items:center;gap:6px}
 .conv-bar{height:4px;border-radius:2px;background:#1e2d4a;width:60px;position:relative}
 .conv-fill{height:100%;border-radius:2px;position:absolute;top:0;left:0}
 .conv-score{font-family:'Courier New',monospace;font-size:10px}
-
-/* strength grid */
 .strength-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
 .str-item{background:#111827;border:1px solid #1e2d4a;border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:10px}
 .str-rank{font-size:20px;font-weight:700;color:#334155;min-width:22px;text-align:center}
 .str-ccy{font-size:13px;font-weight:700;color:#fff}
 .str-note{font-size:9px;color:#64748b;margin-top:2px;line-height:1.3}
-
-/* calendar */
 .cal-list{display:flex;flex-direction:column;gap:8px}
 .cal-item{background:#111827;border:1px solid #1e2d4a;border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:12px}
 .cal-imp{width:4px;border-radius:2px;flex-shrink:0;align-self:stretch;min-height:30px}
-.cal-imp.high{background:#ef4444}
-.cal-imp.med{background:#f59e0b}
-.cal-imp.low{background:#22c55e}
+.cal-imp.high{background:#ef4444}.cal-imp.med{background:#f59e0b}.cal-imp.low{background:#22c55e}
 .cal-time{font-size:10px;color:#64748b;min-width:55px;font-family:'Courier New',monospace}
 .cal-ccy{font-size:10px;font-weight:700;color:#00d4ff;min-width:32px}
 .cal-desc{font-size:12px;color:#e2e8f0;font-weight:500}
 .cal-sub{font-size:10px;color:#64748b;margin-top:2px}
 .cal-alert{font-size:11px;color:#f59e0b;margin-top:2px;font-style:italic}
-
-/* analyst box */
 .analyst-box{background:#0d1629;border:1px solid #00d4ff22;border-left:3px solid #00d4ff;border-radius:0 8px 8px 0;padding:16px 18px}
 .analyst-label{font-size:9px;color:#00d4ff;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;font-weight:700}
 .analyst-text{font-size:13px;color:#cbd5e1;line-height:1.85}
 .analyst-text p{margin-bottom:12px}
 .analyst-text p:last-child{margin-bottom:0}
 .analyst-text strong{color:#fff}
-
-/* bias badge */
 .badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:700;letter-spacing:.5px}
 .badge-hawk{background:#2d0a0a;color:#ef4444;border:1px solid #ef444433}
 .badge-dove{background:#0a2d0a;color:#22c55e;border:1px solid #22c55e33}
 .badge-neu{background:#2d2000;color:#f59e0b;border:1px solid #f59e0b33}
-
 .footer{text-align:center;color:#1e3a5f;font-size:10px;margin-top:30px;padding-top:16px;border-top:1px solid #1e2d4a}
-
-/* tabs */
 .tabs{display:flex;gap:0;border-bottom:1px solid #1e2d4a;margin-bottom:16px;overflow-x:auto}
 .tab{padding:8px 16px;font-size:11px;font-weight:600;color:#475569;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;user-select:none}
-.tab:hover{color:#94a3b8}
-.tab.active{color:#00d4ff;border-bottom-color:#00d4ff}
-.tab-panel{display:none}
-.tab-panel.active{display:block}
-
-@media(max-width:600px){
-  body{padding:12px}
-  .hdr{flex-direction:column;align-items:flex-start}
-  .regime-grid{grid-template-columns:1fr 1fr}
-  .strength-grid{grid-template-columns:1fr 1fr}
-}
+.tab:hover{color:#94a3b8}.tab.active{color:#00d4ff;border-bottom-color:#00d4ff}
+.tab-panel{display:none}.tab-panel.active{display:block}
+@media(max-width:600px){body{padding:12px}.hdr{flex-direction:column;align-items:flex-start}.regime-grid{grid-template-columns:1fr 1fr}.strength-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
-
 <div class="hdr">
-  <div class="hdr-left">
-    <div class="title">FX/BRIEF 2026-06-24 — TPTraders</div>
-    <div class="sub">Generated Wed, 24 Jun 2026 | Prices as of morning session | Powered by TPTraders Intelligence</div>
+  <div>
+    <div class="title">FX/BRIEF 2026-06-25 — TPTraders</div>
+    <div class="sub">Generated Thu, 25 Jun 2026 | Pre-market | Powered by TPTraders Intelligence</div>
   </div>
   <a class="hub-link" href="https://cbell0920.github.io/tptraders-hub">← Hub</a>
 </div>
+<div class="warn">⚠ NOT FINANCIAL ADVICE — For research and educational purposes only.</div>
 
-<div class="warn">⚠ NOT FINANCIAL ADVICE — For research and educational purposes only. All content is informational.</div>
-
-<!-- TABS -->
 <div class="tabs">
   <div class="tab active" onclick="switchTab('overview')">Overview</div>
   <div class="tab" onclick="switchTab('pairs')">Pairs & Levels</div>
@@ -128,429 +89,180 @@ tr:hover td{background:#ffffff04}
   <div class="tab" onclick="switchTab('analyst')">Analyst Note</div>
 </div>
 
-<!-- OVERVIEW TAB -->
+<!-- OVERVIEW -->
 <div class="tab-panel active" id="tab-overview">
-
   <div class="section">
     <div class="section-title">Market Regime</div>
     <div class="regime-grid">
-      <div class="regime-card">
-        <div class="rc-label">Risk Regime</div>
-        <div class="rc-value" style="color:#f59e0b">⚡ MIXED</div>
-        <div class="rc-sub">USD strength vs easing geopolitical risk</div>
-      </div>
-      <div class="regime-card">
-        <div class="rc-label">USD Bias</div>
-        <div class="rc-value" style="color:#22c55e">↑ BULLISH</div>
-        <div class="rc-sub">Warsh hawkish hold · DXY above 100</div>
-      </div>
-      <div class="regime-card">
-        <div class="rc-label">DXY</div>
-        <div class="rc-value">~100+</div>
-        <div class="rc-sub">Broke above 100 post-FOMC June 17</div>
-      </div>
-      <div class="regime-card">
-        <div class="rc-label">Gold (XAU)</div>
-        <div class="rc-value" style="color:#ef4444">~$4,050</div>
-        <div class="rc-sub">Near 2-week low · USD headwind</div>
-      </div>
+      <div class="regime-card"><div class="rc-label">Risk Regime</div><div class="rc-value" style="color:#f59e0b">⚡ MIXED</div><div class="rc-sub">Micron earnings lift risk · PCE data pending</div></div>
+      <div class="regime-card"><div class="rc-label">USD Bias</div><div class="rc-value" style="color:#22c55e">↑ BULLISH</div><div class="rc-sub">DXY 101.3 · hawkish Warsh Fed</div></div>
+      <div class="regime-card"><div class="rc-label">WTI Crude</div><div class="rc-value" style="color:#ef4444">$69.45</div><div class="rc-sub">-1.3% · back to pre-war levels · Hormuz open</div></div>
+      <div class="regime-card"><div class="rc-label">Gold (XAU)</div><div class="rc-value" style="color:#ef4444">~$4,001</div><div class="rc-sub">Broke below $4,000 · lowest since Nov 2025</div></div>
     </div>
   </div>
-
   <div class="section">
     <div class="section-title">Currency Strength Ranking</div>
     <div class="strength-grid">
-      <div class="str-item">
-        <div class="str-rank" style="color:#22c55e">1</div>
-        <div><div class="str-ccy">🇺🇸 USD</div><div class="str-note">Hawkish Fed · DXY 100+ · safe haven</div></div>
-      </div>
-      <div class="str-item">
-        <div class="str-rank" style="color:#4ade80">2</div>
-        <div><div class="str-ccy">🇨🇭 CHF</div><div class="str-note">SNB near-zero but safe haven demand</div></div>
-      </div>
-      <div class="str-item">
-        <div class="str-rank" style="color:#86efac">3</div>
-        <div><div class="str-ccy">🇪🇺 EUR</div><div class="str-note">ECB hiked to 2.25% — limits downside</div></div>
-      </div>
-      <div class="str-item">
-        <div class="str-rank" style="color:#94a3b8">4</div>
-        <div><div class="str-ccy">🇬🇧 GBP</div><div class="str-note">BoE cautious hold · political risk</div></div>
-      </div>
-      <div class="str-item">
-        <div class="str-rank" style="color:#94a3b8">5</div>
-        <div><div class="str-ccy">🇦🇺 AUD</div><div class="str-note">Stretched longs · USD headwind</div></div>
-      </div>
-      <div class="str-item">
-        <div class="str-rank" style="color:#fca5a5">6</div>
-        <div><div class="str-ccy">🇯🇵 JPY</div><div class="str-note">Rate diff killing yen · MoF only brake</div></div>
-      </div>
-      <div class="str-item">
-        <div class="str-rank" style="color:#f87171">7</div>
-        <div><div class="str-ccy">🇨🇦 CAD</div><div class="str-note">Weakest G10 fundamentals · USD/CAD up</div></div>
-      </div>
-      <div class="str-item">
-        <div class="str-rank" style="color:#ef4444">8</div>
-        <div><div class="str-ccy">🇳🇿 NZD</div><div class="str-note">RBNZ dovish · COT net-short building</div></div>
-      </div>
+      <div class="str-item"><div class="str-rank" style="color:#22c55e">1</div><div><div class="str-ccy">🇺🇸 USD</div><div class="str-note">DXY 101.3 · hawkish Fed · rate hike priced Sep</div></div></div>
+      <div class="str-item"><div class="str-rank" style="color:#4ade80">2</div><div><div class="str-ccy">🇨🇭 CHF</div><div class="str-note">Safe haven + SNB 0% · gold correlation bid</div></div></div>
+      <div class="str-item"><div class="str-rank" style="color:#86efac">3</div><div><div class="str-ccy">🇪🇺 EUR</div><div class="str-note">ECB 2.25% hike Jun 11 · limits downside</div></div></div>
+      <div class="str-item"><div class="str-rank" style="color:#94a3b8">4</div><div><div class="str-ccy">🇬🇧 GBP</div><div class="str-note">BoE 3.75% hold · GBP/USD below 1.3200</div></div></div>
+      <div class="str-item"><div class="str-rank" style="color:#94a3b8">5</div><div><div class="str-ccy">🇦🇺 AUD</div><div class="str-note">Stretched COT longs · RBA neutral</div></div></div>
+      <div class="str-item"><div class="str-rank" style="color:#fca5a5">6</div><div><div class="str-ccy">🇯🇵 JPY</div><div class="str-note">Rate diff crushing yen · MoF at 161+</div></div></div>
+      <div class="str-item"><div class="str-rank" style="color:#f87171">7</div><div><div class="str-ccy">🇨🇦 CAD</div><div class="str-note">Weakest G10 fundamentals · oil headwind</div></div></div>
+      <div class="str-item"><div class="str-rank" style="color:#ef4444">8</div><div><div class="str-ccy">🇳🇿 NZD</div><div class="str-note">RBNZ dovish · COT net-short building</div></div></div>
     </div>
   </div>
-
   <div class="section">
     <div class="section-title">Top Conviction Pairs</div>
     <table>
       <thead><tr><th>Pair</th><th>Bias</th><th>Conviction</th><th>Key Driver</th></tr></thead>
       <tbody>
-        <tr>
-          <td class="pair">EUR/USD</td>
-          <td><span class="bear">BEARISH</span></td>
-          <td><div class="conv-wrap"><div class="conv-bar"><div class="conv-fill" style="width:85%;background:#ef4444"></div></div><span class="conv-score" style="color:#ef4444">85</span></div></td>
-          <td class="driver">Fed hawkish + weak eurozone PMI (49.5)</td>
-        </tr>
-        <tr>
-          <td class="pair">USD/JPY</td>
-          <td><span class="bull">BULLISH</span></td>
-          <td><div class="conv-wrap"><div class="conv-bar"><div class="conv-fill" style="width:80%;background:#22c55e"></div></div><span class="conv-score" style="color:#22c55e">80</span></div></td>
-          <td class="driver">Rate differential · caution re: MoF at 161+</td>
-        </tr>
-        <tr>
-          <td class="pair">USD/CAD</td>
-          <td><span class="bull">BULLISH</span></td>
-          <td><div class="conv-wrap"><div class="conv-bar"><div class="conv-fill" style="width:80%;background:#22c55e"></div></div><span class="conv-score" style="color:#22c55e">80</span></div></td>
-          <td class="driver">CAD weakest G10 · spec longs vulnerable to unwind</td>
-        </tr>
-        <tr>
-          <td class="pair">GBP/USD</td>
-          <td><span class="bear">BEARISH</span></td>
-          <td><div class="conv-wrap"><div class="conv-bar"><div class="conv-fill" style="width:75%;background:#ef4444"></div></div><span class="conv-score" style="color:#ef4444">75</span></div></td>
-          <td class="driver">BoE cautious · UK political instability · USD bid</td>
-        </tr>
-        <tr>
-          <td class="pair">EUR/GBP</td>
-          <td><span class="bull">BULLISH</span></td>
-          <td><div class="conv-wrap"><div class="conv-bar"><div class="conv-fill" style="width:72%;background:#22c55e"></div></div><span class="conv-score" style="color:#22c55e">72</span></div></td>
-          <td class="driver">ECB hiking vs BoE holding · rate gap 150bp</td>
-        </tr>
+        <tr><td class="pair">EUR/USD</td><td><span class="bear">BEARISH</span></td><td><div class="conv-wrap"><div class="conv-bar"><div class="conv-fill" style="width:85%;background:#ef4444"></div></div><span class="conv-score" style="color:#ef4444">85</span></div></td><td class="driver">Hawkish Fed + weak eurozone PMI 49.5 · PCE data today could extend USD</td></tr>
+        <tr><td class="pair">USD/JPY</td><td><span class="bull">BULLISH*</span></td><td><div class="conv-wrap"><div class="conv-bar"><div class="conv-fill" style="width:78%;background:#22c55e"></div></div><span class="conv-score" style="color:#22c55e">78</span></div></td><td class="driver">Rate differential 275bp · size conservatively vs MoF risk at 161+</td></tr>
+        <tr><td class="pair">USD/CAD</td><td><span class="bull">BULLISH</span></td><td><div class="conv-wrap"><div class="conv-bar"><div class="conv-fill" style="width:80%;background:#22c55e"></div></div><span class="conv-score" style="color:#22c55e">80</span></div></td><td class="driver">CAD weakest G10 · oil at $69 headwind · spec longs exposed</td></tr>
+        <tr><td class="pair">GBP/USD</td><td><span class="bear">BEARISH</span></td><td><div class="conv-wrap"><div class="conv-bar"><div class="conv-fill" style="width:73%;background:#ef4444"></div></div><span class="conv-score" style="color:#ef4444">73</span></div></td><td class="driver">BoE cautious 7-2 hold · GBP below 1.3200 · USD bid dominant</td></tr>
+        <tr><td class="pair">EUR/GBP</td><td><span class="bull">BULLISH</span></td><td><div class="conv-wrap"><div class="conv-bar"><div class="conv-fill" style="width:70%;background:#22c55e"></div></div><span class="conv-score" style="color:#22c55e">70</span></div></td><td class="driver">ECB hiking vs BoE holding · 150bp gap supports EUR vs GBP</td></tr>
       </tbody>
     </table>
   </div>
-
 </div>
 
-<!-- PAIRS TAB -->
+<!-- PAIRS -->
 <div class="tab-panel" id="tab-pairs">
   <div class="section">
     <div class="section-title">All Major Pairs — Levels & Bias</div>
     <table>
       <thead><tr><th>Pair</th><th>Price</th><th>Bias</th><th>Support</th><th>Resistance</th><th>Driver</th></tr></thead>
       <tbody>
-        <tr><td class="pair">EUR/USD</td><td class="level">1.1375</td><td><span class="bear">BEARISH</span></td><td class="level">1.1300</td><td class="level">1.1500</td><td class="driver">Fed hawkish hold + weak eurozone PMI 49.5</td></tr>
-        <tr><td class="pair">GBP/USD</td><td class="level">1.3200</td><td><span class="bear">BEARISH</span></td><td class="level">1.3100</td><td class="level">1.3300</td><td class="driver">BoE cautious, UK political chaos, USD bid</td></tr>
-        <tr><td class="pair">USD/JPY</td><td class="level">161.57</td><td><span class="bull">BULLISH*</span></td><td class="level">160.00</td><td class="level">163.00</td><td class="driver">Rate diff supportive but MoF intervention risk at 161+</td></tr>
-        <tr><td class="pair">USD/CHF</td><td class="level">0.8085</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.8000</td><td class="level">0.8200</td><td class="driver">USD strength vs CHF safe haven — range-bound</td></tr>
-        <tr><td class="pair">AUD/USD</td><td class="level">0.7010</td><td><span class="bear">BEARISH</span></td><td class="level">0.6950</td><td class="level">0.7100</td><td class="driver">COT longs at extreme — unwind risk + USD headwind</td></tr>
-        <tr><td class="pair">NZD/USD</td><td class="level">0.5730</td><td><span class="bear">BEARISH</span></td><td class="level">0.5650</td><td class="level">0.5800</td><td class="driver">RBNZ dovish, COT net-short building</td></tr>
-        <tr><td class="pair">USD/CAD</td><td class="level">1.4152</td><td><span class="bull">BULLISH</span></td><td class="level">1.3900</td><td class="level">1.4300</td><td class="driver">CAD weakest G10, deteriorating fundamentals</td></tr>
-        <tr><td class="pair">EUR/GBP</td><td class="level">0.8621</td><td><span class="bull">BULLISH</span></td><td class="level">0.8550</td><td class="level">0.8700</td><td class="driver">ECB hiking vs BoE holding — rate gap narrowing to 150bp</td></tr>
-        <tr><td class="pair">EUR/JPY</td><td class="level">183.86</td><td><span class="bull">BULLISH</span></td><td class="level">182.00</td><td class="level">186.00</td><td class="driver">ECB hawkish + JPY structural weakness</td></tr>
-        <tr><td class="pair">EUR/CHF</td><td class="level">0.9213</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.9100</td><td class="level">0.9350</td><td class="driver">Both safe haven demand vs rate dynamics</td></tr>
-        <tr><td class="pair">EUR/AUD</td><td class="level">1.6453</td><td><span class="bull">BULLISH</span></td><td class="level">1.6200</td><td class="level">1.6700</td><td class="driver">ECB hike supportive, AUD longs stretched</td></tr>
-        <tr><td class="pair">EUR/NZD</td><td class="level">2.0076</td><td><span class="bull">BULLISH</span></td><td class="level">1.9800</td><td class="level">2.0300</td><td class="driver">RBNZ dovish vs ECB hiking</td></tr>
-        <tr><td class="pair">EUR/CAD</td><td class="level">1.6100</td><td><span class="neu">NEUTRAL</span></td><td class="level">1.5900</td><td class="level">1.6300</td><td class="driver">Both currencies under different pressures</td></tr>
-        <tr><td class="pair">GBP/JPY</td><td class="level">212.80</td><td><span class="neu">NEUTRAL</span></td><td class="level">210.00</td><td class="level">215.00</td><td class="driver">Both currencies pressured by USD bid</td></tr>
-        <tr><td class="pair">GBP/CHF</td><td class="level">1.0676</td><td><span class="bear">BEARISH</span></td><td class="level">1.0500</td><td class="level">1.0850</td><td class="driver">GBP political risk vs CHF safe haven</td></tr>
-        <tr><td class="pair">GBP/AUD</td><td class="level">1.8823</td><td><span class="neu">NEUTRAL</span></td><td class="level">1.8600</td><td class="level">1.9100</td><td class="driver">Both under broad USD pressure</td></tr>
-        <tr><td class="pair">GBP/NZD</td><td class="level">2.3024</td><td><span class="bull">BULLISH</span></td><td class="level">2.2700</td><td class="level">2.3400</td><td class="driver">NZD weakest of the two</td></tr>
-        <tr><td class="pair">GBP/CAD</td><td class="level">1.8622</td><td><span class="neu">NEUTRAL</span></td><td class="level">1.8400</td><td class="level">1.8900</td><td class="driver">Mixed — CAD fundamental weakness vs GBP political risk</td></tr>
-        <tr><td class="pair">AUD/JPY</td><td class="level">113.24</td><td><span class="bull">BULLISH</span></td><td class="level">111.00</td><td class="level">115.00</td><td class="driver">JPY structural weakness dominant</td></tr>
-        <tr><td class="pair">AUD/CHF</td><td class="level">0.5668</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.5600</td><td class="level">0.5750</td><td class="driver">AUD stretched longs vs CHF safe haven</td></tr>
+        <tr><td class="pair">EUR/USD</td><td class="level">1.1350</td><td><span class="bear">BEARISH</span></td><td class="level">1.1280</td><td class="level">1.1450</td><td class="driver">PCE data today · hawkish Fed dot plot</td></tr>
+        <tr><td class="pair">GBP/USD</td><td class="level">1.3180</td><td><span class="bear">BEARISH</span></td><td class="level">1.3100</td><td class="level">1.3280</td><td class="driver">BoE cautious hold · UK political risk</td></tr>
+        <tr><td class="pair">USD/JPY</td><td class="level">161.50</td><td><span class="bull">BULLISH*</span></td><td class="level">160.00</td><td class="level">163.00</td><td class="driver">Rate diff supportive · MoF intervention risk elevated at 161+</td></tr>
+        <tr><td class="pair">USD/CHF</td><td class="level">0.8090</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.8000</td><td class="level">0.8200</td><td class="driver">USD strength vs CHF safe haven — range-bound</td></tr>
+        <tr><td class="pair">AUD/USD</td><td class="level">0.7000</td><td><span class="bear">BEARISH</span></td><td class="level">0.6950</td><td class="level">0.7080</td><td class="driver">COT longs extreme · oil/commodity headwind</td></tr>
+        <tr><td class="pair">NZD/USD</td><td class="level">0.5720</td><td><span class="bear">BEARISH</span></td><td class="level">0.5650</td><td class="level">0.5800</td><td class="driver">RBNZ dovish · COT net-short building</td></tr>
+        <tr><td class="pair">USD/CAD</td><td class="level">1.4170</td><td><span class="bull">BULLISH</span></td><td class="level">1.3950</td><td class="level">1.4300</td><td class="driver">CAD weakest G10 · oil at $69 negative</td></tr>
+        <tr><td class="pair">EUR/GBP</td><td class="level">0.8626</td><td><span class="bull">BULLISH</span></td><td class="level">0.8560</td><td class="level">0.8700</td><td class="driver">ECB 2.25% vs BoE 3.75% — gap 150bp</td></tr>
+        <tr><td class="pair">EUR/JPY</td><td class="level">183.50</td><td><span class="bull">BULLISH</span></td><td class="level">181.50</td><td class="level">186.00</td><td class="driver">ECB hawkish + JPY structural weakness</td></tr>
+        <tr><td class="pair">EUR/CHF</td><td class="level">0.9210</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.9100</td><td class="level">0.9350</td><td class="driver">Both under different pressures — range</td></tr>
+        <tr><td class="pair">EUR/AUD</td><td class="level">1.6500</td><td><span class="bull">BULLISH</span></td><td class="level">1.6250</td><td class="level">1.6750</td><td class="driver">ECB hawkish · AUD longs stretched</td></tr>
+        <tr><td class="pair">EUR/NZD</td><td class="level">2.0100</td><td><span class="bull">BULLISH</span></td><td class="level">1.9850</td><td class="level">2.0350</td><td class="driver">RBNZ dovish vs ECB hiking</td></tr>
+        <tr><td class="pair">EUR/CAD</td><td class="level">1.6090</td><td><span class="neu">NEUTRAL</span></td><td class="level">1.5900</td><td class="level">1.6300</td><td class="driver">Cross pair — USD dominates both legs</td></tr>
+        <tr><td class="pair">GBP/JPY</td><td class="level">212.60</td><td><span class="neu">NEUTRAL</span></td><td class="level">210.00</td><td class="level">215.00</td><td class="driver">Both under USD pressure</td></tr>
+        <tr><td class="pair">GBP/CHF</td><td class="level">1.0670</td><td><span class="bear">BEARISH</span></td><td class="level">1.0500</td><td class="level">1.0850</td><td class="driver">GBP political risk vs CHF safe haven</td></tr>
+        <tr><td class="pair">GBP/AUD</td><td class="level">1.8829</td><td><span class="neu">NEUTRAL</span></td><td class="level">1.8600</td><td class="level">1.9100</td><td class="driver">Both under broad USD pressure</td></tr>
+        <tr><td class="pair">GBP/NZD</td><td class="level">2.3040</td><td><span class="bull">BULLISH</span></td><td class="level">2.2700</td><td class="level">2.3400</td><td class="driver">NZD weakest of the two</td></tr>
+        <tr><td class="pair">GBP/CAD</td><td class="level">1.8680</td><td><span class="neu">NEUTRAL</span></td><td class="level">1.8450</td><td class="level">1.8900</td><td class="driver">Mixed — CAD weak vs GBP political risk</td></tr>
+        <tr><td class="pair">AUD/JPY</td><td class="level">113.05</td><td><span class="bull">BULLISH</span></td><td class="level">111.00</td><td class="level">115.00</td><td class="driver">JPY structural weakness dominant</td></tr>
+        <tr><td class="pair">AUD/CHF</td><td class="level">0.5663</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.5600</td><td class="level">0.5750</td><td class="driver">AUD stretched longs vs CHF safe haven</td></tr>
         <tr><td class="pair">AUD/NZD</td><td class="level">1.2237</td><td><span class="bull">BULLISH</span></td><td class="level">1.2100</td><td class="level">1.2400</td><td class="driver">RBA less dovish than RBNZ</td></tr>
-        <tr><td class="pair">AUD/CAD</td><td class="level">0.9918</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.9800</td><td class="level">1.0050</td><td class="driver">Commodity currency pair — range-bound</td></tr>
-        <tr><td class="pair">NZD/JPY</td><td class="level">92.55</td><td><span class="bull">BULLISH</span></td><td class="level">91.00</td><td class="level">94.00</td><td class="driver">JPY weakness dominant over NZD dovish</td></tr>
-        <tr><td class="pair">NZD/CHF</td><td class="level">0.4634</td><td><span class="bear">BEARISH</span></td><td class="level">0.4550</td><td class="level">0.4720</td><td class="driver">NZD bearish vs CHF safe haven bid</td></tr>
-        <tr><td class="pair">NZD/CAD</td><td class="level">0.8107</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.8000</td><td class="level">0.8250</td><td class="driver">Both weak — no strong directional edge</td></tr>
-        <tr><td class="pair">CAD/JPY</td><td class="level">114.13</td><td><span class="bull">BULLISH</span></td><td class="level">112.50</td><td class="level">116.00</td><td class="driver">JPY weakness dominant</td></tr>
-        <tr><td class="pair">CAD/CHF</td><td class="level">0.5715</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.5650</td><td class="level">0.5800</td><td class="driver">CAD fundamental weakness vs CHF safe haven</td></tr>
-        <tr><td class="pair">CHF/JPY</td><td class="level">199.72</td><td><span class="bull">BULLISH</span></td><td class="level">197.00</td><td class="level">202.00</td><td class="driver">Safe haven CHF vs structurally weak JPY</td></tr>
+        <tr><td class="pair">AUD/CAD</td><td class="level">0.9906</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.9800</td><td class="level">1.0050</td><td class="driver">Commodity cross — range-bound</td></tr>
+        <tr><td class="pair">NZD/JPY</td><td class="level">92.37</td><td><span class="bull">BULLISH</span></td><td class="level">91.00</td><td class="level">94.00</td><td class="driver">JPY weakness dominant over NZD dovish</td></tr>
+        <tr><td class="pair">NZD/CHF</td><td class="level">0.4628</td><td><span class="bear">BEARISH</span></td><td class="level">0.4550</td><td class="level">0.4720</td><td class="driver">NZD bearish vs CHF safe haven</td></tr>
+        <tr><td class="pair">NZD/CAD</td><td class="level">0.8105</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.8000</td><td class="level">0.8250</td><td class="driver">Both weak — no strong directional edge</td></tr>
+        <tr><td class="pair">CAD/JPY</td><td class="level">113.97</td><td><span class="bull">BULLISH</span></td><td class="level">112.50</td><td class="level">116.00</td><td class="driver">JPY weakness dominant</td></tr>
+        <tr><td class="pair">CAD/CHF</td><td class="level">0.5709</td><td><span class="neu">NEUTRAL</span></td><td class="level">0.5650</td><td class="level">0.5800</td><td class="driver">CAD weak vs CHF safe haven</td></tr>
+        <tr><td class="pair">CHF/JPY</td><td class="level">199.63</td><td><span class="bull">BULLISH</span></td><td class="level">197.00</td><td class="level">202.00</td><td class="driver">Safe haven CHF vs structurally weak JPY</td></tr>
       </tbody>
     </table>
-    <div style="margin-top:8px;font-size:10px;color:#475569">* USD/JPY bullish bias but size conservatively — MoF intervention risk elevated above 161.00</div>
+    <div style="margin-top:8px;font-size:10px;color:#475569">* USD/JPY bullish bias — size conservatively. MoF intervention risk elevated above 161.00</div>
   </div>
 </div>
 
-<!-- CENTRAL BANKS TAB -->
+<!-- CENTRAL BANKS -->
 <div class="tab-panel" id="tab-cb">
   <div class="section">
     <div class="section-title">Central Bank Rates & Stances</div>
     <table>
       <thead><tr><th>Central Bank</th><th>Rate</th><th>Bias</th><th>Last Decision</th><th>Next Meeting</th><th>Note</th></tr></thead>
       <tbody>
-        <tr>
-          <td style="font-weight:600;color:#fff">Federal Reserve</td>
-          <td class="rate">3.50–3.75%</td>
-          <td><span class="badge badge-hawk">HAWKISH</span></td>
-          <td style="font-size:11px;color:#64748b">Hold · Jun 17 · 12-0</td>
-          <td style="font-size:11px;color:#64748b">Jul 29</td>
-          <td class="driver">Warsh dot plot moved median to 3.8%. US CPI 4.2%. October hike being priced. PCE today is key.</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#fff">ECB</td>
-          <td class="rate">2.25%</td>
-          <td><span class="badge badge-hawk">HAWKISH</span></td>
-          <td style="font-size:11px;color:#64748b">+25bp hike · Jun 11</td>
-          <td style="font-size:11px;color:#64748b">Jul 23</td>
-          <td class="driver">First hike since 2023. Eurozone CPI 3.2%. ~50% chance of Sep hike. But PMI &lt;50 limits pace.</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#fff">Bank of England</td>
-          <td class="rate">3.75%</td>
-          <td><span class="badge badge-neu">CAUTIOUS</span></td>
-          <td style="font-size:11px;color:#64748b">Hold · Jun 18 · 7-2</td>
-          <td style="font-size:11px;color:#64748b">Jul 30</td>
-          <td class="driver">2 MPC members voted hike. UK CPI 2.8%, services CPI 3.6%. Political uncertainty a wildcard.</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#fff">Bank of Japan</td>
-          <td class="rate">0.75%</td>
-          <td><span class="badge badge-neu">HAWKISH TILT</span></td>
-          <td style="font-size:11px;color:#64748b">Hawkish hold</td>
-          <td style="font-size:11px;color:#64748b">Jul</td>
-          <td class="driver">BoJ normalising slowly. MoF warning vs yen weakness at 161+. Intervention risk elevated.</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#fff">RBA</td>
-          <td class="rate">~4.10%</td>
-          <td><span class="badge badge-neu">NEUTRAL</span></td>
-          <td style="font-size:11px;color:#64748b">Mildly hawkish hold</td>
-          <td style="font-size:11px;color:#64748b">Aug</td>
-          <td class="driver">Watching inflation. AUD positioning extreme — more relevant driver than RBA right now.</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#fff">RBNZ</td>
-          <td class="rate">~3.25%</td>
-          <td><span class="badge badge-dove">DOVISH</span></td>
-          <td style="font-size:11px;color:#64748b">Cutting</td>
-          <td style="font-size:11px;color:#64748b">Jul</td>
-          <td class="driver">Cutting cycle. NZD structural headwind. COT shorts building.</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#fff">Bank of Canada</td>
-          <td class="rate">~2.75%</td>
-          <td><span class="badge badge-neu">NEUTRAL</span></td>
-          <td style="font-size:11px;color:#64748b">Hold</td>
-          <td style="font-size:11px;color:#64748b">Jul</td>
-          <td class="driver">Wants to cut but constrained. CAD weakest G10 fundamentally.</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#fff">SNB</td>
-          <td class="rate">0.00%</td>
-          <td><span class="badge badge-neu">NEUTRAL</span></td>
-          <td style="font-size:11px;color:#64748b">Hold</td>
-          <td style="font-size:11px;color:#64748b">Sep</td>
-          <td class="driver">Near-zero rate. CHF strength driven by safe haven demand, not policy. SNB will intervene if CHF too strong.</td>
-        </tr>
+        <tr><td style="font-weight:600;color:#fff">Federal Reserve</td><td class="rate">3.50–3.75%</td><td><span class="badge badge-hawk">HAWKISH</span></td><td style="font-size:11px;color:#64748b">Hold · Jun 17 · 12-0</td><td style="font-size:11px;color:#64748b">Jul 29</td><td class="driver">Warsh dot plot moved median to 3.8%. CPI 4.2%. September hike ~68% priced. PCE today is the catalyst.</td></tr>
+        <tr><td style="font-weight:600;color:#fff">ECB</td><td class="rate">2.25%</td><td><span class="badge badge-hawk">HAWKISH</span></td><td style="font-size:11px;color:#64748b">+25bp hike · Jun 11</td><td style="font-size:11px;color:#64748b">Jul 23</td><td class="driver">First hike since 2023. Eurozone CPI 3.2%. ~50% chance Sep hike. PMI below 50 for 3 months limits pace.</td></tr>
+        <tr><td style="font-weight:600;color:#fff">Bank of England</td><td class="rate">3.75%</td><td><span class="badge badge-neu">CAUTIOUS</span></td><td style="font-size:11px;color:#64748b">Hold · Jun 18 · 7-2</td><td style="font-size:11px;color:#64748b">Jul 30</td><td class="driver">2 MPC members voted hike. UK CPI 2.8%, services CPI 3.7%. UK political risk a wildcard for GBP.</td></tr>
+        <tr><td style="font-weight:600;color:#fff">Bank of Japan</td><td class="rate">0.75%</td><td><span class="badge badge-neu">HAWKISH TILT</span></td><td style="font-size:11px;color:#64748b">Rate hike Jun</td><td style="font-size:11px;color:#64748b">Jul</td><td class="driver">BoJ raised rates again in June per currency forecaster data. MoF warning at 161+. Intervention risk elevated.</td></tr>
+        <tr><td style="font-weight:600;color:#fff">RBA</td><td class="rate">~4.10%</td><td><span class="badge badge-neu">NEUTRAL</span></td><td style="font-size:11px;color:#64748b">Hawkish hold</td><td style="font-size:11px;color:#64748b">Aug</td><td class="driver">Among more hawkish G10 central banks. AUD positioning extreme — more relevant driver than RBA right now.</td></tr>
+        <tr><td style="font-weight:600;color:#fff">RBNZ</td><td class="rate">~3.25%</td><td><span class="badge badge-dove">DOVISH</span></td><td style="font-size:11px;color:#64748b">Cutting</td><td style="font-size:11px;color:#64748b">Jul</td><td class="driver">Cutting cycle. NZD structural headwind. Asset managers at 6-week high net-short NZD.</td></tr>
+        <tr><td style="font-weight:600;color:#fff">Bank of Canada</td><td class="rate">~2.75%</td><td><span class="badge badge-neu">NEUTRAL</span></td><td style="font-size:11px;color:#64748b">Hold</td><td style="font-size:11px;color:#64748b">Jul</td><td class="driver">Wants to cut but constrained. CAD weakest G10 fundamentally. Oil at $69 a headwind.</td></tr>
+        <tr><td style="font-weight:600;color:#fff">SNB</td><td class="rate">0.00%</td><td><span class="badge badge-neu">NEUTRAL</span></td><td style="font-size:11px;color:#64748b">Hold</td><td style="font-size:11px;color:#64748b">Sep</td><td class="driver">Near-zero rate. CHF strength driven by safe haven demand. SNB intervenes if CHF too strong.</td></tr>
       </tbody>
     </table>
   </div>
 </div>
 
-<!-- COT TAB -->
+<!-- COT -->
 <div class="tab-panel" id="tab-cot">
   <div class="section">
     <div class="section-title">COT Positioning — Non-Commercial (CFTC, latest)</div>
     <table>
       <thead><tr><th>Currency</th><th>Positioning</th><th>Trend</th><th>Detail</th></tr></thead>
       <tbody>
-        <tr>
-          <td style="font-weight:700;color:#fff">🇺🇸 USD</td>
-          <td><span class="neu">NET-SHORT REDUCING</span></td>
-          <td style="color:#22c55e;font-size:11px">▲ Improving</td>
-          <td class="driver">Net-short was -$22.8B, now reduced to ~-$13.1B. Most aggressive 3-week culling since Nov 2024. USD bears retreating.</td>
-        </tr>
-        <tr>
-          <td style="font-weight:700;color:#fff">🇪🇺 EUR</td>
-          <td><span class="bull">NET-LONG</span></td>
-          <td style="color:#ef4444;font-size:11px">▼ Fading</td>
-          <td class="driver">Large specs near 18-month high but trimming as USD bid returns. Asset managers flipping against EUR longs.</td>
-        </tr>
-        <tr>
-          <td style="font-weight:700;color:#fff">🇬🇧 GBP</td>
-          <td><span class="neu">MIXED</span></td>
-          <td style="color:#f59e0b;font-size:11px">→ Diverging</td>
-          <td class="driver">Large specs net-long ~33k contracts. Asset managers net-short ~13k. Divergence = fragile positioning.</td>
-        </tr>
-        <tr>
-          <td style="font-weight:700;color:#fff">🇯🇵 JPY</td>
-          <td><span class="bear">NET-SHORT (growing)</span></td>
-          <td style="color:#ef4444;font-size:11px">▼ Deteriorating</td>
-          <td class="driver">Large specs flipped net-short. Gross shorts rising at fastest pace since Nov 2024 — 3rd consecutive weekly increase. MoF watching.</td>
-        </tr>
-        <tr>
-          <td style="font-weight:700;color:#fff">🇦🇺 AUD</td>
-          <td><span class="bull">NET-LONG (extreme)</span></td>
-          <td style="color:#f59e0b;font-size:11px">⚠ Stretched</td>
-          <td class="driver">Pushed to multi-year extremes after US strike on Iran. Sentiment extreme risk — reversal candidate. Watch for unwind trigger.</td>
-        </tr>
-        <tr>
-          <td style="font-weight:700;color:#fff">🇳🇿 NZD</td>
-          <td><span class="bear">NET-SHORT</span></td>
-          <td style="color:#ef4444;font-size:11px">▼ Building</td>
-          <td class="driver">Asset managers at 6-week high net-short. NZD/USD downside bias confirmed by positioning.</td>
-        </tr>
-        <tr>
-          <td style="font-weight:700;color:#fff">🇨🇦 CAD</td>
-          <td><span class="bull">NET-LONG (specs)</span></td>
-          <td style="color:#f59e0b;font-size:11px">⚠ Diverges from fundamentals</td>
-          <td class="driver">Large specs most bullish CAD since Sep 2022 — but macro is bearish CAD. Risk of violent unwind if USD/CAD breaks 1.42.</td>
-        </tr>
-        <tr>
-          <td style="font-weight:700;color:#fff">🇨🇭 CHF</td>
-          <td><span class="neu">NET-SHORT REDUCING</span></td>
-          <td style="color:#22c55e;font-size:11px">▲ Improving</td>
-          <td class="driver">Safe haven demand absorbing CHF shorts. Gross shorts fell 37% among large specs recently.</td>
-        </tr>
+        <tr><td style="font-weight:700;color:#fff">🇺🇸 USD</td><td><span class="neu">NET-SHORT REDUCING</span></td><td style="color:#22c55e;font-size:11px">▲ Improving</td><td class="driver">Net-short reduced from -$22.8B to ~-$13.1B. Most aggressive culling since Nov 2024. USD bears retreating fast.</td></tr>
+        <tr><td style="font-weight:700;color:#fff">🇪🇺 EUR</td><td><span class="bull">NET-LONG</span></td><td style="color:#ef4444;font-size:11px">▼ Fading</td><td class="driver">Large specs near 18-month high but trimming as USD bid returns. J.P. Morgan now bearish EUR/USD first time in a year.</td></tr>
+        <tr><td style="font-weight:700;color:#fff">🇬🇧 GBP</td><td><span class="neu">MIXED</span></td><td style="color:#f59e0b;font-size:11px">→ Diverging</td><td class="driver">Large specs net-long ~33k. Asset managers net-short ~13k. Divergence = fragile — watch for unwind.</td></tr>
+        <tr><td style="font-weight:700;color:#fff">🇯🇵 JPY</td><td><span class="bear">NET-SHORT (growing)</span></td><td style="color:#ef4444;font-size:11px">▼ Deteriorating</td><td class="driver">Gross shorts rising at fastest pace since Nov 2024. 3rd consecutive weekly increase. MoF watching 161+.</td></tr>
+        <tr><td style="font-weight:700;color:#fff">🇦🇺 AUD</td><td><span class="bull">NET-LONG (extreme)</span></td><td style="color:#f59e0b;font-size:11px">⚠ Stretched</td><td class="driver">Multi-year extreme longs. Commodity headwind (oil $69) + USD strength = reversal candidate.</td></tr>
+        <tr><td style="font-weight:700;color:#fff">🇳🇿 NZD</td><td><span class="bear">NET-SHORT</span></td><td style="color:#ef4444;font-size:11px">▼ Building</td><td class="driver">Asset managers at 6-week high net-short. NZD downside bias confirmed by positioning and RBNZ.</td></tr>
+        <tr><td style="font-weight:700;color:#fff">🇨🇦 CAD</td><td><span class="bull">NET-LONG (specs)</span></td><td style="color:#f59e0b;font-size:11px">⚠ Diverges from fundamentals</td><td class="driver">Most bullish since Sep 2022 but macro is bearish CAD. Violent unwind risk if USD/CAD breaks 1.42.</td></tr>
+        <tr><td style="font-weight:700;color:#fff">🇨🇭 CHF</td><td><span class="neu">NET-SHORT REDUCING</span></td><td style="color:#22c55e;font-size:11px">▲ Improving</td><td class="driver">Safe haven demand absorbing CHF shorts. Gross shorts fell 37% among large specs.</td></tr>
       </tbody>
     </table>
   </div>
 </div>
 
-<!-- MACRO TAB -->
+<!-- MACRO -->
 <div class="tab-panel" id="tab-macro">
   <div class="section">
     <div class="section-title">Macro Environment</div>
     <div class="macro-text">
-      <p>The dominant post-super-week macro theme is a <strong>hawkish repricing of the Federal Reserve</strong> under new Chair Kevin Warsh. The June 17 FOMC held rates at <strong>3.50–3.75%</strong> in a unanimous 12-0 vote, but the dot plot was a hawkish shock — the median year-end projection rose to 3.8% (from 3.4% in March). With US CPI at <strong>4.2%</strong>, markets are now pricing a possible hike by October. The Dollar Index broke above 100 and has held there. This is the key structural driver across all USD pairs: the cutting cycle the market priced through early 2026 is now off the table, and the next move is more likely up than down.</p>
-      <p>The <strong>ECB raised its deposit facility rate to 2.25%</strong> on June 11 — its first hike since 2023 — in response to eurozone CPI at 3.2% in May with core at 2.5%. This limits EUR downside against GBP and JPY, but the ECB is fighting against a growth slowdown: the June composite PMI came in at 49.5, below 50 for a third consecutive month. The hawkish policy backdrop cannot fully offset the recessionary PMI signal, which is why EUR/USD remains under pressure from the stronger USD despite the ECB hike.</p>
-      <p>In the UK, the <strong>Bank of England held at 3.75%</strong> in a 7-2 vote on June 18. Two MPC members voted for a hike — UK services CPI at 3.6% is the culprit. Political uncertainty continues to weigh on GBP independently of the monetary policy picture. The BoE-ECB rate gap has narrowed to 150bp after the ECB hike, trimming GBP/EUR's structural support.</p>
-      <p>The <strong>Iran deal progress</strong> from last week has provided a disinflationary tailwind via lower oil prices, but markets are cautiously treating it as fragile. Gold has pulled back to ~$4,050 — a two-week low — as the USD strengthens and safe haven demand softens at the margins. The commodity complex remains a secondary rather than primary driver this week.</p>
-      <p><strong>Today's PCE print is the single most important catalyst of the week.</strong> Wells Fargo is forecasting +0.5% headline m/m and +0.3% core m/m. A hot print confirms the October hike narrative and extends USD strength across all major pairs. A soft miss triggers a sharp reversal — expect 50–80 pip moves on EUR/USD and GBP/USD on the number.</p>
+      <p>The macro picture entering June 25 is shaped by two competing forces: a <strong>surging US dollar</strong> and a <strong>Micron-driven AI relief rally</strong>. The DXY has swept past chart resistance and is heading toward its highest level in more than a year, driven by the Fed's hawkish hold on June 17 under Chair Kevin Warsh. Markets now price a September rate hike at approximately 68% probability, up sharply from 29% just one week ago. Gold broke below $4,000 per ounce on June 24 — its lowest level since November 2025 — as real rates rise and the dollar strengthens.</p>
+      <p>Micron Technology posted blowout fiscal Q3 earnings, driven by surging AI data center demand for memory chips. Shares rocketed 17–18% in pre-market, lifting Nasdaq 100 futures 2.1% and reviving confidence in the AI trade after several days of selling. This AI sentiment backdrop is risk-positive at the margin but the bigger macro question — PCE inflation — arrives at 8:30 AM ET today. Economists expect headline PCE at +0.5% m/m and core at +0.3% m/m. A hot print confirms the October hike narrative and extends USD strength across all pairs. A soft miss triggers sharp reversals.</p>
+      <p>The <strong>Strait of Hormuz reopening</strong> has driven crude oil back to pre-conflict levels near $69/bbl — a disinflationary tailwind that the Fed will acknowledge, but it doesn't change the underlying inflation trajectory enough to alter the hawkish bias. The Iran peace deal remains fragile. Gold's break below $4,000 is described by analysts as a real-rates and dollar event, not a post-rally wobble.</p>
+      <p>In Europe, the ECB's hike to 2.25% on June 11 limits EUR downside but the eurozone composite PMI at 49.5 — below 50 for a third consecutive month — signals the economy cannot absorb continued tightening. J.P. Morgan has pivoted to a <strong>bearish EUR/USD forecast</strong> for the first time in a year, targeting 1.13–1.15 over the next three quarters. In the UK, the BoE's cautious 7-2 hold combined with political instability keeps GBP on the back foot.</p>
     </div>
   </div>
   <div class="section">
     <div class="section-title">Commodity Correlations</div>
     <div class="regime-grid">
-      <div class="regime-card">
-        <div class="rc-label">WTI Crude</div>
-        <div class="rc-value" style="color:#22c55e">~$73.50</div>
-        <div class="rc-sub">Iran deal eased Hormuz premium · CAD/NOK positive</div>
-      </div>
-      <div class="regime-card">
-        <div class="rc-label">Gold (XAU)</div>
-        <div class="rc-value" style="color:#ef4444">~$4,050</div>
-        <div class="rc-sub">Near 2-week low · USD headwind · CHF/JPY safe haven alternative</div>
-      </div>
-      <div class="regime-card">
-        <div class="rc-label">Copper</div>
-        <div class="rc-value">Soft</div>
-        <div class="rc-sub">Weak China demand signal · AUD/NZD negative</div>
-      </div>
-      <div class="regime-card">
-        <div class="rc-label">DXY</div>
-        <div class="rc-value" style="color:#22c55e">100+</div>
-        <div class="rc-sub">Above psychological level · broad USD strength confirmed</div>
-      </div>
+      <div class="regime-card"><div class="rc-label">WTI Crude</div><div class="rc-value" style="color:#ef4444">$69.45</div><div class="rc-sub">-1.3% · back to pre-war levels · CAD/NOK negative</div></div>
+      <div class="regime-card"><div class="rc-label">Gold (XAU)</div><div class="rc-value" style="color:#ef4444">~$4,001</div><div class="rc-sub">Below $4,000 · lowest Nov 2025 · USD headwind</div></div>
+      <div class="regime-card"><div class="rc-label">DXY</div><div class="rc-value" style="color:#22c55e">101.3</div><div class="rc-sub">Sweeping past resistance · highest in 1+ year</div></div>
+      <div class="regime-card"><div class="rc-label">Copper</div><div class="rc-value">$5.99</div><div class="rc-sub">Soft demand · China headwind · AUD/NZD negative</div></div>
     </div>
   </div>
 </div>
 
-<!-- CALENDAR TAB -->
+<!-- CALENDAR -->
 <div class="tab-panel" id="tab-calendar">
   <div class="section">
     <div class="section-title">Economic Calendar — Next 48 Hours</div>
     <div class="cal-list">
-
-      <div class="cal-item">
-        <div class="cal-imp high"></div>
-        <div class="cal-time">08:30 ET<br>Today</div>
-        <div class="cal-ccy">USD</div>
-        <div>
-          <div class="cal-desc">PCE Price Index (May) — Headline m/m</div>
-          <div class="cal-sub">Forecast: +0.5% m/m · Previous: +0.3% m/m</div>
-          <div class="cal-alert">⚠ Most important print of the week — determines October hike pricing</div>
-        </div>
-      </div>
-
-      <div class="cal-item">
-        <div class="cal-imp high"></div>
-        <div class="cal-time">08:30 ET<br>Today</div>
-        <div class="cal-ccy">USD</div>
-        <div>
-          <div class="cal-desc">Core PCE Price Index (May) — m/m</div>
-          <div class="cal-sub">Forecast: +0.3% m/m · Fed's preferred inflation gauge</div>
-          <div class="cal-alert">⚠ Hot = USD longs. Miss = take profits and wait</div>
-        </div>
-      </div>
-
-      <div class="cal-item">
-        <div class="cal-imp med"></div>
-        <div class="cal-time">08:30 ET<br>Today</div>
-        <div class="cal-ccy">USD</div>
-        <div>
-          <div class="cal-desc">Initial Jobless Claims</div>
-          <div class="cal-sub">Labour market health check — secondary to PCE today</div>
-        </div>
-      </div>
-
-      <div class="cal-item">
-        <div class="cal-imp med"></div>
-        <div class="cal-time">All day<br>Today</div>
-        <div class="cal-ccy">EUR</div>
-        <div>
-          <div class="cal-desc">ECB Speaker Circuit</div>
-          <div class="cal-sub">Watch for any September hike signals post-June decision</div>
-        </div>
-      </div>
-
-      <div class="cal-item">
-        <div class="cal-imp med"></div>
-        <div class="cal-time">08:30 ET<br>Thu Jun 25</div>
-        <div class="cal-ccy">USD</div>
-        <div>
-          <div class="cal-desc">GDP Final — Q1 2026</div>
-          <div class="cal-sub">Backward-looking but confirms growth trajectory</div>
-        </div>
-      </div>
-
-      <div class="cal-item">
-        <div class="cal-imp low"></div>
-        <div class="cal-time">10:00 ET<br>Fri Jun 26</div>
-        <div class="cal-ccy">USD</div>
-        <div>
-          <div class="cal-desc">U of Michigan Consumer Sentiment — Final</div>
-          <div class="cal-sub">Low impact unless major revision from prelim</div>
-        </div>
-      </div>
-
-      <div class="cal-item">
-        <div class="cal-imp med"></div>
-        <div class="cal-time">All week</div>
-        <div class="cal-ccy">GBP</div>
-        <div>
-          <div class="cal-desc">UK Political Developments</div>
-          <div class="cal-sub">Watch for any Starmer government news — elevated risk of GBP gap moves</div>
-        </div>
-      </div>
-
+      <div class="cal-item"><div class="cal-imp high"></div><div class="cal-time">08:30 ET<br>Today</div><div class="cal-ccy">USD</div><div><div class="cal-desc">PCE Price Index (May) — Headline m/m</div><div class="cal-sub">Forecast: +0.5% m/m · Previous: +0.4% m/m</div><div class="cal-alert">⚠ Most important data of the week — September hike pricing depends on this</div></div></div>
+      <div class="cal-item"><div class="cal-imp high"></div><div class="cal-time">08:30 ET<br>Today</div><div class="cal-ccy">USD</div><div><div class="cal-desc">Core PCE Price Index (May) — m/m</div><div class="cal-sub">Forecast: +0.3% m/m · Year/year: 3.4% — Fed's preferred gauge</div><div class="cal-alert">⚠ Hot = USD longs extended. Soft miss = sharp reversal</div></div></div>
+      <div class="cal-item"><div class="cal-imp med"></div><div class="cal-time">08:30 ET<br>Today</div><div class="cal-ccy">USD</div><div><div class="cal-desc">Initial Jobless Claims</div><div class="cal-sub">Labour market health check — secondary to PCE today</div></div></div>
+      <div class="cal-item"><div class="cal-imp med"></div><div class="cal-time">All day<br>Today</div><div class="cal-ccy">EUR</div><div><div class="cal-desc">ECB Speaker Circuit</div><div class="cal-sub">Watch for any September hike signals after June decision</div></div></div>
+      <div class="cal-item"><div class="cal-imp med"></div><div class="cal-time">All week</div><div class="cal-ccy">GBP</div><div><div class="cal-desc">UK Political Developments</div><div class="cal-sub">Elevated risk of GBP gap moves on any government news</div></div></div>
+      <div class="cal-item"><div class="cal-imp low"></div><div class="cal-time">Fri Jun 26</div><div class="cal-ccy">USD</div><div><div class="cal-desc">University of Michigan Consumer Sentiment — Final</div><div class="cal-sub">Low impact unless major revision from preliminary reading</div></div></div>
     </div>
   </div>
 </div>
 
-<!-- ANALYST NOTE TAB -->
+<!-- ANALYST NOTE -->
 <div class="tab-panel" id="tab-analyst">
   <div class="section">
     <div class="section-title">Senior Analyst Note</div>
     <div class="analyst-box">
-      <div class="analyst-label">TPTraders Senior FX Analyst — June 24, 2026</div>
+      <div class="analyst-label">TPTraders Senior FX Analyst — June 25, 2026</div>
       <div class="analyst-text">
-        <p>The dominant trade setup this week is <strong>short EUR/USD on any bounce toward 1.1450–1.1500</strong>. The ECB's hike to 2.25% should theoretically support the euro — and it does relative to GBP and JPY — but against the USD it's the weaker force. Three consecutive months of composite PMI below 50 tells you the eurozone economy is struggling to absorb the tightening. The Fed's hawkish dot plot under Warsh is the dominant narrative. The 1.1500 level is both structural resistance and the line in the sand for USD bears; if it caps, the path toward 1.1300 and ultimately 1.1150 opens up over the next 2–4 weeks.</p>
-        <p><strong>USD/JPY is high conviction but high risk.</strong> The fundamental case — 275bp rate differential, BoJ still normalising slowly at 0.75% — argues for 163+. But the MoF is not bluffing at these levels. The last intervention came swiftly and without warning. Preferred approach: stay long USD/JPY but size conservatively — no more than 50% of normal size — and keep stops tight below 160.50. A breach of 163.00 on heavy volume opens 165. An MoF intervention drops the pair 200–300 pips in minutes.</p>
-        <p><strong>USD/CAD is the cleanest long.</strong> Spec positioning is extremely long CAD, yet the macro picture is unambiguously bearish CAD — deteriorating real growth, the BoC wanting to cut but unable to, and USD dominance across the board. When spec longs get caught offside in a USD-bullish move, the unwind is fast and violent. USD/CAD above 1.4200 on a daily close confirms the break. Target 1.4400–1.4500 on a hot PCE print today.</p>
-        <p><strong>PCE at 08:30 ET today determines the next leg.</strong> Hot (+0.5% headline / +0.3% core): add USD longs across the board, fade EUR and AUD bounces, stay with USD/CAD and USD/JPY positions. Soft miss: take profits, wait for re-entry — don't fight the reversal, the move can be sharp. The week's positioning bias is clear; today's data either accelerates it or gives you a better entry.</p>
+        <p>The dominant trade today is simple: <strong>watch PCE at 08:30 ET and react accordingly</strong>. The setup favors USD bulls — the DXY is sweeping past chart resistance, gold has broken below $4,000, and markets are pricing a 68% chance of a September hike. A hot PCE (+0.5% headline / +0.3% core) extends this move. <strong>Short EUR/USD on any bounce toward 1.1430–1.1450</strong> is the cleanest expression. J.P. Morgan just pivoted to a bearish EUR/USD view for the first time in a year — that's institutional validation of the trade.</p>
+        <p><strong>USD/CAD is the most underappreciated long.</strong> Oil at $69 is a direct headwind for CAD. Spec longs are at their most bullish since September 2022, yet the macro picture is unambiguously bearish CAD. That divergence is dangerous for CAD longs. A USD/CAD daily close above 1.4200 confirms the break — target 1.4400 on a hot PCE print today.</p>
+        <p><strong>USD/JPY: stay long but play it light.</strong> The fundamental case remains intact — 275bp rate differential, BoJ still below 1%. But the MoF has now confirmed they raised rates again in June and are watching 161+ carefully. Don't size this like USD/CAD. Stops tight below 160.50. Breach of 163.00 with volume opens 165.</p>
+        <p>A soft PCE miss reverses everything above sharply. Don't fight a miss — take profits, wait for a re-entry setup. The week's structural bias is clear, but data-driven reversals in this environment can run 80–120 pips in 30 minutes. Micron's blowout earnings improve risk sentiment at the margin but they don't change the dollar or rate story.</p>
       </div>
     </div>
   </div>
 </div>
 
-<div class="footer">FX Morning Brief · TPTraders Intelligence Hub · 2026-06-24 · NOT FINANCIAL ADVICE<br>
+<div class="footer">FX Morning Brief · TPTraders Intelligence Hub · 2026-06-25 · NOT FINANCIAL ADVICE<br>
 <a href="https://cbell0920.github.io/tptraders-hub" style="color:#1e3a5f">← TPTraders Hub</a>
 </div>
 
