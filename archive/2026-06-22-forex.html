@@ -1,0 +1,576 @@
+Now I have all the data I need. Let me compile everything and generate the complete HTML file.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FX Morning Brief — 2026-06-22 — TPTraders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0a0e1a;
+    --bg-card: #0f1629;
+    --border: #1e2d4a;
+    --text-primary: #e2e8f0;
+    --text-muted: #7c8fa6;
+    --cyan: #00d4ff;
+    --amber: #f59e0b;
+    --green: #22c55e;
+    --red: #ef4444;
+    --green-dim: #166534;
+    --red-dim: #7f1d1d;
+    --amber-dim: #78350f;
+    --gray: #4b5563;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header-bar {
+    background: linear-gradient(90deg, #060b18 0%, #0d1a35 50%, #060b18 100%);
+    border-bottom: 2px solid var(--cyan);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .header-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .header-disclaimer {
+    font-size: 10px;
+    background: var(--amber-dim);
+    color: var(--amber);
+    border: 1px solid var(--amber);
+    border-radius: 4px;
+    padding: 2px 8px;
+    letter-spacing: 1px;
+  }
+
+  /* LAYOUT */
+  .container { max-width: 1400px; margin: 0 auto; padding: 20px 16px; }
+  .section { margin-bottom: 28px; }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 14px;
+    background: var(--cyan);
+    border-radius: 2px;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  /* BADGES */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .badge-hawkish { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
+  .badge-dovish  { background: var(--red-dim);   color: var(--red);   border: 1px solid var(--red); }
+  .badge-neutral { background: #1f2937;           color: #9ca3af;      border: 1px solid #374151; }
+  .badge-long    { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
+  .badge-short   { background: var(--red-dim);   color: var(--red);   border: 1px solid var(--red); }
+  .badge-risk-on  { background: #052e16; color: #4ade80; border: 1px solid #22c55e; }
+  .badge-risk-off { background: #450a0a; color: #fca5a5; border: 1px solid #ef4444; }
+  .badge-neutral-risk { background: #1f2937; color: #fbbf24; border: 1px solid #f59e0b; }
+  .badge-usd-strong { background: #1e3a5f; color: var(--cyan); border: 1px solid var(--cyan); }
+  .badge-usd-weak   { background: var(--red-dim); color: var(--red); border: 1px solid var(--red); }
+  .badge-warn { background: #422006; color: #fb923c; border: 1px solid #f97316; font-size: 9px; padding: 1px 6px; }
+
+  /* TOP SUMMARY ROW */
+  .summary-row {
+    display: grid;
+    grid-template-columns: auto auto 1fr 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+  .summary-cell { }
+  .summary-cell-label {
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .conviction-list { display: flex; flex-direction: column; gap: 4px; }
+  .conviction-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .strength-list { display: flex; flex-direction: column; gap: 4px; }
+  .strength-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+  }
+  .rank-num {
+    font-size: 10px;
+    color: var(--text-muted);
+    width: 16px;
+    text-align: right;
+  }
+
+  /* MACRO */
+  .macro-text { font-size: 13px; line-height: 1.8; color: #cbd5e1; }
+  .macro-text p { margin-bottom: 14px; }
+  .macro-text p:last-child { margin-bottom: 0; }
+  .hl { color: var(--cyan); font-weight: 600; }
+  .hl-amber { color: var(--amber); font-weight: 600; }
+  .hl-green { color: var(--green); font-weight: 600; }
+  .hl-red { color: var(--red); font-weight: 600; }
+
+  /* CENTRAL BANKS */
+  .cb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+  }
+  .cb-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cb-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .cb-hawkish::before { background: var(--green); }
+  .cb-dovish::before  { background: var(--red); }
+  .cb-neutral::before { background: var(--gray); }
+  .cb-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .cb-flag-name { display: flex; align-items: center; gap: 8px; }
+  .cb-flag { font-size: 20px; }
+  .cb-ccy { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+  .cb-name { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+  .cb-rate-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+    padding: 6px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .cb-rate-label { font-size: 10px; color: var(--text-muted); }
+  .cb-rate-val { font-size: 16px; font-weight: 700; color: var(--cyan); }
+  .cb-next { font-size: 10px; color: var(--text-muted); margin-bottom: 8px; }
+  .cb-next span { color: var(--amber); }
+  .cb-summary { font-size: 11px; color: #94a3b8; line-height: 1.6; }
+
+  /* COT TABLE */
+  .cot-table { width: 100%; border-collapse: collapse; }
+  .cot-table th {
+    background: #091020;
+    color: var(--cyan);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .cot-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #121d30;
+    font-size: 12px;
+  }
+  .cot-table tr:hover td { background: #111827; }
+  .arrow-up { color: var(--green); font-size: 14px; }
+  .arrow-down { color: var(--red); font-size: 14px; }
+  .arrow-flat { color: var(--text-muted); font-size: 14px; }
+  .extreme-flag {
+    font-size: 12px;
+    margin-left: 4px;
+    color: var(--amber);
+  }
+
+  /* CALENDAR */
+  .cal-table { width: 100%; border-collapse: collapse; }
+  .cal-table th {
+    background: #091020;
+    color: var(--cyan);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .cal-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #121d30;
+    font-size: 12px;
+    vertical-align: top;
+  }
+  .cal-table tr:hover td { background: #111827; }
+  .cal-day { color: var(--cyan); font-weight: 700; font-size: 11px; }
+  .cal-time { color: var(--text-muted); font-size: 10px; }
+  .cal-ccy { font-weight: 700; }
+  .cal-ccy-usd { color: #60a5fa; }
+  .cal-ccy-eur { color: #a78bfa; }
+  .cal-ccy-gbp { color: #34d399; }
+  .cal-ccy-jpy { color: #f87171; }
+  .cal-ccy-aud { color: #fbbf24; }
+  .cal-ccy-cad { color: #f97316; }
+  .cal-ccy-nzd { color: #818cf8; }
+  .cal-ccy-chf { color: #e879f9; }
+  .cal-impact-h { color: var(--red); font-weight: 700; font-size: 10px; }
+  .cal-impact-m { color: var(--amber); font-weight: 700; font-size: 10px; }
+  .cal-impact-l { color: var(--gray); font-size: 10px; }
+  .cal-vals { font-size: 11px; color: var(--text-muted); }
+  .cal-vals span { color: var(--text-primary); }
+
+  /* COMMODITIES */
+  .comm-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .comm-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .comm-icon { font-size: 28px; margin-bottom: 8px; }
+  .comm-name { font-size: 10px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  .comm-price { font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+  .comm-change-pos { font-size: 13px; color: var(--green); font-weight: 600; }
+  .comm-change-neg { font-size: 13px; color: var(--red); font-weight: 600; }
+  .comm-note { font-size: 11px; color: #94a3b8; margin-top: 10px; line-height: 1.5; border-top: 1px solid var(--border); padding-top: 10px; }
+
+  /* STRENGTH RANKING */
+  .strength-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .strength-row {
+    display: grid;
+    grid-template-columns: 24px 60px 1fr 80px 60px;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .sr-rank { font-size: 12px; color: var(--text-muted); font-weight: 700; text-align: center; }
+  .sr-ccy { font-size: 14px; font-weight: 700; }
+  .sr-bar-wrap { background: #1e2d4a; border-radius: 4px; height: 8px; overflow: hidden; }
+  .sr-bar { height: 100%; border-radius: 4px; transition: width 0.3s; }
+  .sr-score { font-size: 12px; color: var(--text-muted); text-align: right; font-family: monospace; }
+  .sr-chg-pos { font-size: 12px; color: var(--green); text-align: right; font-weight: 600; }
+  .sr-chg-neg { font-size: 12px; color: var(--red); text-align: right; font-weight: 600; }
+
+  /* OUTLIERS TABLE */
+  .outlier-table { width: 100%; border-collapse: collapse; }
+  .outlier-table th {
+    background: #091020;
+    color: var(--cyan);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .outlier-table td {
+    padding: 11px 12px;
+    border-bottom: 1px solid #121d30;
+    font-size: 12px;
+    vertical-align: top;
+  }
+  .outlier-table tr:hover td { background: #111827; }
+  .pair-name { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+  .score-val { font-size: 14px; font-weight: 700; }
+  .score-high { color: var(--green); }
+  .score-mid  { color: var(--amber); }
+  .score-low  { color: var(--gray); }
+  .rationale { color: #94a3b8; font-size: 11px; line-height: 1.5; max-width: 380px; }
+  .key-level { color: var(--cyan); font-size: 11px; font-weight: 600; }
+
+  /* CONVICTION MATRIX */
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 6px;
+  }
+  .matrix-cell {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .mc-pair { font-size: 12px; font-weight: 700; color: var(--text-primary); }
+  .mc-bottom { display: flex; align-items: center; justify-content: space-between; }
+  .mc-score-high { font-size: 11px; font-weight: 700; color: var(--green); }
+  .mc-score-mid  { font-size: 11px; font-weight: 700; color: var(--amber); }
+  .mc-score-low  { font-size: 11px; font-weight: 700; color: var(--gray); }
+
+  /* ANALYST NOTE */
+  .analyst-card {
+    background: linear-gradient(135deg, #0f1629 0%, #0a0e1a 100%);
+    border: 1px solid var(--cyan);
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+  }
+  .analyst-card::before {
+    content: '// ANALYST NOTE';
+    position: absolute;
+    top: -10px;
+    left: 16px;
+    background: var(--bg-primary);
+    color: var(--cyan);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 0 8px;
+  }
+  .analyst-text {
+    font-size: 13px;
+    line-height: 1.85;
+    color: #cbd5e1;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: #060b18;
+    border-top: 1px solid var(--border);
+    padding: 16px 20px;
+    text-align: center;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-top: 40px;
+  }
+  .footer-line1 { color: var(--cyan); margin-bottom: 4px; font-weight: 600; }
+  .footer-line2 { color: var(--amber); }
+
+  /* DIVIDERS */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .summary-row { grid-template-columns: 1fr 1fr; }
+    .comm-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .header-bar { flex-direction: column; align-items: flex-start; }
+    .summary-row { grid-template-columns: 1fr; }
+    .cb-grid { grid-template-columns: 1fr; }
+    .strength-row { grid-template-columns: 24px 50px 1fr 60px 50px; }
+    .matrix-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+  }
+
+  /* PRINT */
+  @media print {
+    * { background: white !important; color: black !important; border-color: #ccc !important; }
+    .header-bar { position: relative; border-bottom: 2px solid #000; }
+    .header-title { color: black !important; }
+    .hl, .hl-amber, .hl-green, .hl-red { color: black !important; font-weight: bold; }
+    .badge { border: 1px solid #999 !important; color: black !important; }
+    .section-title { color: black !important; border-bottom: 1px solid #ccc; }
+    .section-title::before { background: black !important; }
+    .comm-change-pos, .comm-change-neg, .sr-chg-pos, .sr-chg-neg { color: black !important; }
+    .cal-ccy-usd, .cal-ccy-eur, .cal-ccy-gbp, .cal-ccy-jpy, .cal-ccy-aud, .cal-ccy-cad, .cal-ccy-nzd, .cal-ccy-chf { color: black !important; }
+    .footer { display: none; }
+    .header-disclaimer { background: #eee !important; color: black !important; }
+  }
+
+  /* Scrollable tables on mobile */
+  .table-scroll { overflow-x: auto; }
+
+  /* Subtle glow on cards */
+  .card-glow-cyan { box-shadow: 0 0 0 1px rgba(0,212,255,0.1), 0 4px 16px rgba(0,212,255,0.04); }
+
+  /* Score bars in matrix */
+  .cell-long  { border-left: 3px solid var(--green); }
+  .cell-short { border-left: 3px solid var(--red); }
+  .cell-neut  { border-left: 3px solid var(--gray); }
+
+  /* Pulse dot */
+  .live-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    margin-right: 6px;
+    animation: pulse 2s infinite;
+    vertical-align: middle;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .flag-row { display: flex; align-items: center; gap: 6px; }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     SECTION 1 · HEADER BAR
+════════════════════════════════════════════ -->
+<div class="header-bar">
+  <div class="header-title">
+    <span class="live-dot"></span>FX/BRIEF 2026-06-22 — TPTraders
+  </div>
+  <div class="header-meta">Generated Mon, 22 Jun 2026 &nbsp;|&nbsp; 19:50:01 GMT &nbsp;|&nbsp; Prices as of London Close</div>
+  <div class="header-disclaimer">⚠ NOT FINANCIAL ADVICE</div>
+</div>
+
+<div class="container">
+
+<!-- ════════════════════════════════════════════
+     SECTION 2 · TOP SUMMARY ROW
+════════════════════════════════════════════ -->
+<div class="section" style="margin-top:16px;">
+  <div class="summary-row">
+
+    <!-- Risk Regime -->
+    <div class="card" style="min-width:160px;">
+      <div class="summary-cell-label">Risk Regime</div>
+      <div class="badge badge-neutral-risk" style="font-size:13px; padding:6px 14px;">⚡ MIXED</div>
+      <div style="font-size:10px; color:var(--text-muted); margin-top:8px;">Oil -4.9% · Gold +0.8%<br>GBP shock · Iran deal progress</div>
+    </div>
+
+    <!-- USD Bias -->
+    <div class="card" style="min-width:160px;">
+      <div class="summary-cell-label">USD Bias</div>
+      <div class="badge badge-usd-strong" style="font-size:13px; padding:6px 14px;">↑ BULLISH</div>
+      <div style="font-size:10px; color:var(--text-muted); margin-top:8px;">Warsh hawkish tilt<br>9/19 policymakers eye hike</div>
+    </div>
+
+    <!-- Top 3 Conviction Pairs -->
+    <div class="card">
+      <div class="summary-cell-label">Top Conviction Pairs</div>
+      <div class="conviction-list">
+        <div class="conviction-item">
+          <span class="badge badge-short">SHORT</span>
+          <span style="color:var(--red); font-size:14px; font-weight:700;">GBP/USD</span>
+          <span style="color:var(--text-muted); font-size:11px;">88 · Starmer resign + dovish BoE</span>
+        </div>
+        <div class="conviction-item">
+          <span class="badge badge-long">LONG</span>
+          <span style="color:var(--green); font-size:14px; font-weight:700;">USD/JPY</span>
+          <span style="color:var(--text-muted); font-size:11px;">85 · Rate diff, JPY under pressure</span>
+        </div>
+        <div class="conviction-item">
+          <span class="badge badge-short">SHORT</span>
+          <span style="color:var(--red); font-size:14px; font-weight:700;">EUR/GBP</span>
+          <span style="color:var(--text-muted); font-size:11px;">82 · ECB hike vs UK chaos</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Strongest Currencies -->
+    <div class="card">
+      <div class="summary-cell-label">Strongest Today</div>
+      <div class="strength-list">
+        <div class="strength-item">
+          <span class="rank-num">#1</span>
+          <span style="font-size:14px; font-weight:700; color:var(--green);">🇨🇭 CHF</span>
+          <span style="color:var(--text-muted); font-size:11px;">Safe haven, SNB 0.00%</span>
+        </div>
+        <div class="strength-item">
+          <span class="rank-num">#2</span>
+          <span style="font-size:14px; font-weight:700; color:var(--green);">🇺🇸 USD</span>
+          <span style="color:var(--text-muted); font-size:11px;">Hawkish Warsh shift</span>
+        </div>
+        <div class="strength-item">
+          <span class="rank-num">#3</span>
+          <span style="font-size:14px; font-weight:700; color:var(--green);">🇪🇺 EUR</span>
+          <span style="color:var(--text-muted); font-size:11px;">ECB just hiked 25bp</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SECTION 3 · MACRO ENVIRONMENT
+════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">Macro Environment</div>
+  <div class="card card-glow-cyan">
+    <div class="macro-text">
+      <p>
+        The dominant macro theme entering the week of June 22 is a <span class="hl">dual geopolitical de-escalation</span> shock: the US and Iran have agreed on a 60-day roadmap toward a final peace deal, with mediators Qatar and Pakistan brokering a monitoring mechanism. This has <span class="hl-red">crushed WTI crude by over 4.9% today to ~$73.50/bbl</span>, erasing much of the Hormuz-crisis premium that had driven global inflation metrics sharply higher through Q1–Q2. The easing of energy prices provides a temporary disinflationary tailwind, but markets are rightly cautious: the deal remains fragile, and headline CPI/PCE data already baked in months of elevated energy costs. <span class="hl-amber">Gold has caught a bid near $4,200 despite the risk-on tilt</span>, signalling that deep structural uncertainty — particularly around US Fed policy under Chairman Warsh — remains unresolved.
+      </p>
+      <p>
+        The Federal Reserve's June 16–17 FOMC meeting under <span class="hl">new Chair Kevin Warsh</span> delivered a hold at 3.50–3.75%, but the policy statement overhaul was seismic: the prior cutting bias was removed, forward guidance scrapped, and the dot plot now shows 9 of 19 policymakers projecting at least one hike in 2026. Markets are pricing a September hike at growing odds. US PCE (the Fed's preferred inflation gauge) lands <span class="hl-amber">Thursday 26 June</span>, with Wells Fargo forecasting +0.5% m/m (headline) and +0.3% m/m (core) — if confirmed, this will reinforce hike bets and support the dollar broadly. The USD is thus structurally bid on any PCE upside surprise, while a soft print could trigger sharp reversal across USD crosses.
+      </p>
+      <p>
+        In the UK, a political earthquake struck this morning:
